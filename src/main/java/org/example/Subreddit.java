@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Subreddit
 {
-    protected static ArrayList <Subreddit> allCommunities = new ArrayList <> ();
+    protected static ArrayList <Subreddit> allSubreddits = new ArrayList <> ();
 
     protected String name;
     protected String description;
@@ -25,16 +25,16 @@ public class Subreddit
 
     public static void addSubreddit (Subreddit subreddit)
     {
-        allCommunities.add (subreddit);
+        allSubreddits.add (subreddit);
     }
 
     /*
-    COMMUNITY FUNCTIONS
+    SUBREDDIT FUNCTIONS
     */
 
     public static Subreddit findSubreddit (String name)
     {
-        for (Subreddit subreddit : allCommunities)
+        for (Subreddit subreddit : allSubreddits)
         {
             if (subreddit.name.equalsIgnoreCase (name))
             {
@@ -63,9 +63,9 @@ public class Subreddit
     GET-INFO FUNCTIONS
     */
 
-    public static ArrayList <Subreddit> getAllCommunities ()
+    public static ArrayList <Subreddit> getAllSubreddits ()
     {
-        return allCommunities;
+        return allSubreddits;
     }
 
     public String getName ()
