@@ -22,7 +22,7 @@ public class User
     protected int    karma;
     protected byte[] salt;
 
-    protected ArrayList <Subreddit> communities;
+    protected ArrayList <Subreddit> subreddits;
     protected ArrayList <Post>      posts;
     protected ArrayList <Comment>   comments;
 
@@ -34,13 +34,14 @@ public class User
 
     public User (String email, String username, String password)
     {
+        salt = generateSalt ();
+
         this.email = email;
         allEmails.add (email);
 
         this.username = username;
         allUsernames.add (username);
 
-        salt          = generateSalt ();
         password      = hashPassword (password, salt);
         this.password = password;
         allPasswords.add (password);
@@ -54,6 +55,22 @@ public class User
     public static void setCurrentUser (User user)
     {
         currentUser = user;
+    }
+
+    /*
+    USER FUNCTIONS
+    */
+
+    public static User findUserByUsername (String username)
+    {
+        for (User user : allUsers)
+        {
+            if (user.username.equals (username))
+            {
+                return user;
+            }
+        }
+        return null;
     }
 
     /*
@@ -136,7 +153,7 @@ public class User
         return 1; //valid password
     }
 
-    public boolean checkPassword (String password, int userNumber)
+    public boolean checkPassword (String password, User user)
     {
         String[] allPasswordsArray = new String[User.allPasswords.size ()];
         User.allPasswords.toArray (allPasswordsArray);
@@ -144,7 +161,7 @@ public class User
         password = hashPassword (password, salt);
 
         assert password != null;
-        return password.equals (allPasswordsArray[userNumber]);
+        return password.equals (user.password);
     }
 
     /*
@@ -226,9 +243,9 @@ public class User
         return password;
     }
 
-    public ArrayList <Subreddit> getCommunities ()
+    public ArrayList <Subreddit> getSubreddits ()
     {
-        return communities;
+        return subreddits;
     }
 
     public ArrayList <Post> getPosts ()
