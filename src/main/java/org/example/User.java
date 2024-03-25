@@ -45,6 +45,10 @@ public class User
         password      = hashPassword (password, salt);
         this.password = password;
         allPasswords.add (password);
+
+        subreddits = new ArrayList<> ();
+        posts = new ArrayList<> ();
+        comments = new ArrayList<> ();
     }
 
     public static void addUser (User user)
