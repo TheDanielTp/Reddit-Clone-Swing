@@ -7,14 +7,17 @@ public class Post
     protected static ArrayList <Post> allPosts = new ArrayList <> ();
 
     protected Subreddit subreddit;
-    protected User user;
+    protected User      user;
 
-    protected String    title;
-    protected String    content;
+    protected String title;
+    protected String content;
 
     protected int karma;
 
-    protected ArrayList<String> comments;
+    protected ArrayList <String> comments;
+
+    protected ArrayList <User> upVotedUsers;
+    protected ArrayList <User> downVotedUsers;
 
     /*
     CONSTRUCTOR FUNCTIONS
@@ -23,9 +26,13 @@ public class Post
     public Post (String title, String content, Subreddit subreddit, User user)
     {
         this.title     = title;
-        this.content  = content;
+        this.content   = content;
         this.subreddit = subreddit;
-        this.user = user;
+        this.user      = user;
+
+        comments = new ArrayList<> ();
+        upVotedUsers = new ArrayList <> ();
+        downVotedUsers = new ArrayList<> ();
     }
 
     public static void addPost (Post post)
@@ -37,14 +44,54 @@ public class Post
     POST FUNCTIONS
     */
 
-    public void upVote ()
+    public void upVote (User user)
     {
-        karma++;
+        if (downVotedUsers != null)
+        {
+            if (downVotedUsers.remove (user))
+            {
+                karma++;
+            }
+        }
+
+        if (upVotedUsers != null)
+        {
+            if (upVotedUsers.contains (user))
+            {
+                upVotedUsers.remove (user);
+                karma--;
+            }
+        }
+        else
+        {
+            upVotedUsers.add (user);
+            karma++;
+        }
     }
 
-    public void downVote ()
+    public void downVote (User user)
     {
-        karma--;
+        if (upVotedUsers != null)
+        {
+            if (upVotedUsers.remove (user))
+            {
+                karma--;
+            }
+        }
+
+        if (downVotedUsers != null)
+        {
+            if (downVotedUsers.contains (user))
+            {
+                downVotedUsers.remove (user);
+                karma++;
+            }
+        }
+        else
+        {
+            downVotedUsers.add (user);
+            karma--;
+        }
     }
 
     /*
@@ -99,7 +146,7 @@ public class Post
         return user;
     }
 
-    public ArrayList<String> getComments ()
+    public ArrayList <String> getComments ()
     {
         return comments;
     }
