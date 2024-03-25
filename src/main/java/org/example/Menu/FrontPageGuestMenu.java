@@ -208,11 +208,10 @@ public class FrontPageGuestMenu extends JFrame
     //main function for testing
     public static void main (String[] args)
     {
-        SwingUtilities.invokeLater (FrontPageGuestMenu :: new);
-
-        User user = new User ("", "TheDanielTp", "");
+        User user = new User ("prof.danial4@gmail.com", "TheDanielTp", "Tdtp3148_P");
         User.addUser (user);
-        User.setCurrentUser (user);
+
+        SwingUtilities.invokeLater (FrontPageGuestMenu :: new);
 
         Subreddit subreddit1 = new Subreddit ("Questions", "");
         Subreddit.addSubreddit (subreddit1);
