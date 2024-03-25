@@ -34,6 +34,20 @@ public class Post
     }
 
     /*
+    POST FUNCTIONS
+    */
+
+    public void upVote ()
+    {
+        karma++;
+    }
+
+    public void downVote ()
+    {
+        karma--;
+    }
+
+    /*
     DISPLAY FUNCTIONS
     */
 
