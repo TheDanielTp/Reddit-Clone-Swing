@@ -9,18 +9,32 @@ public class Subreddit
     protected String name;
     protected String description;
 
+    protected User creator;
+
     protected ArrayList <Post> posts;
     protected ArrayList <User> members;
     protected ArrayList <User> admins;
+
+    protected boolean nsfw;
 
     /*
     CONSTRUCTOR FUNCTIONS
     */
 
-    public Subreddit (String name, String description)
+    public Subreddit (String name, String description, User creator, boolean nsfw)
     {
         this.name        = name;
         this.description = description;
+        this.creator = creator;
+
+        posts = new ArrayList<> ();
+        members = new ArrayList<> ();
+        admins = new ArrayList<> ();
+
+        members.add (creator);
+        admins.add (creator);
+
+        this.nsfw = nsfw;
     }
 
     public static void addSubreddit (Subreddit subreddit)
