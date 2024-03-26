@@ -12,13 +12,13 @@ public class SignInSignUpMenu extends JFrame
 {
     public static Scanner scanner = new Scanner (System.in);
 
-    private JTextField     signUpEmailField;
-    private JTextField     signUpUsernameField;
-    private JPasswordField signUpPasswordField;
-    private JPasswordField signUpConfirmPasswordField;
+    protected JTextField     signUpEmailField;
+    protected JTextField     signUpUsernameField;
+    protected JPasswordField signUpPasswordField;
+    protected JPasswordField signUpConfirmPasswordField;
 
-    private JTextField     signInUsernameField;
-    private JPasswordField signInPasswordField;
+    protected JTextField     signInUsernameField;
+    protected JPasswordField signInPasswordField;
 
     public SignInSignUpMenu ()
     {
