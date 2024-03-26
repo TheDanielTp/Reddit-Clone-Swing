@@ -11,6 +11,8 @@ import java.util.Collections;
 
 public class FrontPageMenu extends JFrame
 {
+    protected static boolean reversed = false;
+
     public FrontPageMenu ()
     {
         setTitle ("Reddit");
@@ -53,7 +55,8 @@ public class FrontPageMenu extends JFrame
         JButton createSubredditButton = new JButton ("Create Subreddit");
         createSubredditButton.addActionListener (e ->
         {
-
+            dispose ();
+            new CreateSubredditMenu ();
         });
 
         JButton createPostButton = new JButton ("Create Post"); //create a button for creating posts
@@ -94,7 +97,11 @@ public class FrontPageMenu extends JFrame
         mainPanel.setLayout (new BoxLayout (mainPanel, BoxLayout.Y_AXIS)); //set layout to box layout
 
         ArrayList <Post> allPosts = Post.getAllPosts (); //fetch posts from array list
-        Collections.reverse (allPosts); //reverse order to display from latest to oldest
+        if (! reversed)
+        {
+            Collections.reverse (allPosts); //reverse order to display from latest to oldest
+            reversed = true;
+        }
 
         for (Post post : allPosts)
         {
@@ -124,17 +131,28 @@ public class FrontPageMenu extends JFrame
         setVisible (true); //make the frame visible
     }
 
+    /*
+    POST PANEL
+    */
+
     private JPanel createPostPanel (Post post)
     {
         JPanel postPanel = new JPanel (new BorderLayout ());
         postPanel.setBackground (new Color (0xffffff)); //set background color to white
 
         JButton titleButton = createButton (post.getTitle ()); //create clickable button for title
+        titleButton.addActionListener (e ->
+        {
+            dispose ();
+            new PostMenu (post);
+        });
+
+        titleButton.setFont(new Font("Arial", Font.BOLD, 16));
         titleButton.setHorizontalAlignment (SwingConstants.CENTER); //center the title button text
 
         //create clickable buttons for user and subreddit
         JButton userButton = createButton ("u/" + post.getUser ().getUsername ());
-        JButton subredditButton = createButton ("r/" + post.getSubreddit ().getName ());
+        JButton subredditButton = createButton ("r/" + post.getSubreddit ().getTitle ());
 
         JTextArea contentArea = new JTextArea (post.getContent ()); //create text area for post content
 
@@ -175,29 +193,84 @@ public class FrontPageMenu extends JFrame
         return button;
     }
 
+    /*
+    VOTE PANEL
+    */
+
     private JPanel createVotePanel (Post post)
     {
         JPanel votePanel = new JPanel (); //create vote panel
 
-        votePanel.setLayout (new BoxLayout (votePanel, BoxLayout.Y_AXIS)); // Stack buttons vertically
+        votePanel.setLayout (new BoxLayout (votePanel, BoxLayout.Y_AXIS)); //stack buttons vertically
 
-        JButton upvoteButton = new JButton ("    "); //create upvote button
-        upvoteButton.addActionListener (e -> post.upVote ()); //add action to button
+        JButton upvoteButton = new JButton (" ↑ "); //create upvote button
+        JButton downvoteButton = new JButton (" ↓ "); //create downvote button
+
+        //initialize buttons' colors
+        final String[] upVoteButtonColor = {"White"};
+        final String[] downVoteButtonColor = {"White"};
 
         upvoteButton.setPreferredSize (new Dimension (30, 30)); //set button size
         upvoteButton.setFont (upvoteButton.getFont ().deriveFont (25.0f)); //set font size to make button text larger
 
         upvoteButton.setBorder (BorderFactory.createLineBorder (Color.BLACK)); //add border for visibility
-        upvoteButton.setBackground (new Color (0xff4500)); //set background color to orange
-
-        JButton downvoteButton = new JButton ("    "); //create downvote button
-        downvoteButton.addActionListener (e -> post.downVote ()); //add action to button
+        upvoteButton.setBackground (new Color (0xffffff)); //set background color to orange
 
         downvoteButton.setPreferredSize (new Dimension (30, 30)); //set button size
         downvoteButton.setFont (downvoteButton.getFont ().deriveFont (25.0f)); //set font size to make button text larger
 
         downvoteButton.setBorder (BorderFactory.createLineBorder (Color.BLACK)); //add border for visibility
-        downvoteButton.setBackground (new Color (0x7193ff)); //set background color to light blue
+        downvoteButton.setBackground (new Color (0xffffff)); //set background color to white
+
+        upvoteButton.addActionListener (e -> //add action to button
+        {
+            post.upVote (User.getCurrentUser ()); //call the upvote function
+
+            //change button color according to the current color
+            if (downVoteButtonColor[0].equals ("Blue"))
+            {
+                downvoteButton.setBackground (new Color (0xffffff)); //set background color to white
+                downVoteButtonColor[0] = "White";
+                downvoteButton.setForeground (new Color (0x000000)); //set text color to black
+            }
+            if (upVoteButtonColor[0].equals ("White"))
+            {
+                upvoteButton.setBackground (new Color (0xff4500)); //set background color to orange
+                upVoteButtonColor[0] = "Orange";
+                upvoteButton.setForeground (new Color (0xffffff)); //set text color to white
+            }
+            else if (upVoteButtonColor[0].equals ("Orange"))
+            {
+                upvoteButton.setBackground (new Color (0xffffff)); //set background color to white
+                upVoteButtonColor[0] = "White";
+                upvoteButton.setForeground (new Color (0x000000)); //set text color to black
+            }
+        });
+
+        downvoteButton.addActionListener (e -> //add action to button
+        {
+            post.downVote (User.getCurrentUser ()); //call the downvote function
+
+            //change button color according to the current color
+            if (upVoteButtonColor[0].equals ("Orange"))
+            {
+                upvoteButton.setBackground (new Color (0xffffff)); //set background color to white
+                upVoteButtonColor[0] = "White";
+                upvoteButton.setForeground (new Color (0x000000)); //set text color to black
+            }
+            if (downVoteButtonColor[0].equals ("White"))
+            {
+                downvoteButton.setBackground (new Color (0x7193ff)); //set background color to blue
+                downVoteButtonColor[0] = "Blue";
+                downvoteButton.setForeground (new Color (0xffffff)); //set text color to white
+            }
+            else if (downVoteButtonColor[0].equals ("Blue"))
+            {
+                downvoteButton.setBackground (new Color (0xffffff)); //set background color to white
+                downVoteButtonColor[0] = "White";
+                downvoteButton.setForeground (new Color (0x000000)); //set text color to black
+            }
+        });
 
         //add buttons to vote panel
         votePanel.add (upvoteButton);
@@ -216,7 +289,7 @@ public class FrontPageMenu extends JFrame
 
         SwingUtilities.invokeLater (FrontPageMenu :: new);
 
-        Subreddit subreddit1 = new Subreddit ("Questions", "");
+        Subreddit subreddit1 = new Subreddit ("Questions", "", user, false);
         Subreddit.addSubreddit (subreddit1);
         User user1 = new User ("", "MathematicianNo", "");
         Post post1 = new Post ("Are a lot of parents not allowing sleepovers anymore?",
@@ -232,21 +305,21 @@ public class FrontPageMenu extends JFrame
                 subreddit1, user1);
         Post.addPost (post1);
 
-        Subreddit subreddit2 = new Subreddit ("Confess", "");
+        Subreddit subreddit2 = new Subreddit ("Confess", "", user, false);
         Subreddit.addSubreddit (subreddit2);
         User user2 = new User ("", "Anonymous-Dog1", "");
         Post post2 = new Post ("I'm in love with my friends ex",
                 """
                         My friend m15 broke up with his gf of 2 years f15 and during their breakup she would always text me m16 about their problems and I was always there to comfort her and over time we've grown closer but to me, I've caught feelings but I'm pretty sure she just sees me as a good friend. 
-                        
+                                                
                         Many problems with trying to talk talk to her like the fact that they are freshly broken up and that I couldn't do that to my friend but she is honestly the most beautiful and funny girls I've ever met and out energies match so well. 
-                        
+                                                
                         I've been stressing over it for a while now and I think it's time I seek advice. any one got some?
                         """,
                 subreddit2, user2);
         Post.addPost (post2);
 
-        Subreddit subreddit3 = new Subreddit ("ShortStory", "");
+        Subreddit subreddit3 = new Subreddit ("ShortStory", "", user, false);
         Subreddit.addSubreddit (subreddit3);
         User user3 = new User ("", "ARedemptionSong", "");
         Post post3 = new Post ("What do you consider the greatest short story of all time?",
