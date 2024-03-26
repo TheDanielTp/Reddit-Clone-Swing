@@ -14,7 +14,7 @@ public class Post
 
     protected int karma;
 
-    protected ArrayList <String> comments;
+    protected ArrayList <Comment> comments;
 
     protected ArrayList <User> upVotedUsers;
     protected ArrayList <User> downVotedUsers;
@@ -94,6 +94,11 @@ public class Post
         }
     }
 
+    public void addComment (Comment comment)
+    {
+        comments.add (comment);
+    }
+
     /*
     DISPLAY FUNCTIONS
     */
@@ -146,7 +151,7 @@ public class Post
         return user;
     }
 
-    public ArrayList <String> getComments ()
+    public ArrayList <Comment> getComments ()
     {
         return comments;
     }
