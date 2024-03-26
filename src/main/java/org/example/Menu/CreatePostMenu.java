@@ -71,7 +71,7 @@ public class CreatePostMenu extends JFrame
         textFieldsPanel.add (contentLabel);
         textFieldsPanel.add (scrollPane);
 
-        JPanel buttonsPanel = getjPanel (); //create buttons panel
+        JPanel buttonsPanel = getButtonsPanel (); //create buttons panel
 
         //add panels to the main panel
         mainPanel.add (optionsPanel, BorderLayout.NORTH);
@@ -82,14 +82,14 @@ public class CreatePostMenu extends JFrame
         setVisible (true); //make the frame visible
     }
 
-    private JPanel getjPanel ()
+    private JPanel getButtonsPanel ()
     {
         JPanel buttonsPanel = new JPanel (new FlowLayout (FlowLayout.CENTER)); //create buttons panel
 
         JButton returnButton = new JButton ("Return to Front Page");
         returnButton.setBackground (new Color (0x0079d3)); //set button color to blue
         returnButton.setForeground (new Color (0xffffff)); //set text color to white
-        returnButton.addActionListener (e ->
+        returnButton.addActionListener (e -> //add action to the button
         {
             dispose (); //close the current frame
             new FrontPageMenu (); //open front page menu
@@ -98,13 +98,13 @@ public class CreatePostMenu extends JFrame
         JButton postButton = new JButton ("Post");
         postButton.setBackground (new Color (0xff4500)); //set button color to orange
         postButton.setForeground (new Color (0xffffff)); //set text color to white
-        postButton.addActionListener (e ->
+        postButton.addActionListener (e -> //add action to the button
         {
-            String selectedSubreddit = (String) subredditComboBox.getSelectedItem (); //get subreddit's name from combo box
-            Subreddit subreddit = getSubredditByName (selectedSubreddit); //find subreddit by subreddit's name
+            String selectedSubreddit = (String) subredditComboBox.getSelectedItem (); //get subreddit's title from combo box
+            Subreddit subreddit = getSubredditByName (selectedSubreddit); //find subreddit by subreddit's title
 
-            String title = titleField.getText (); //get title from title field
-            String content = contentArea.getText (); //get content from content area
+            String title = titleField.getText (); //get post's title from title field
+            String content = contentArea.getText (); //get post's content from content area
 
             if (subreddit == null) //if no subreddit is selected
             {
@@ -150,7 +150,7 @@ public class CreatePostMenu extends JFrame
         ArrayList <Subreddit> allCommunities = Subreddit.getAllSubreddits (); //get list of subreddits
         for (Subreddit subreddit : allCommunities)
         {
-            subredditComboBox.addItem (subreddit.getName ()); //add subreddit's name to combo box
+            subredditComboBox.addItem (subreddit.getTitle ()); //add subreddit's title to combo box
         }
     }
 
@@ -160,7 +160,7 @@ public class CreatePostMenu extends JFrame
 
         for (Subreddit subreddit : allCommunities)
         {
-            if (subreddit.getName ().equals (name)) //return subreddit if entered name is equal to subreddit's name
+            if (subreddit.getTitle ().equals (name)) //return subreddit if entered title is equal to subreddit's title
             {
                 return subreddit;
             }
