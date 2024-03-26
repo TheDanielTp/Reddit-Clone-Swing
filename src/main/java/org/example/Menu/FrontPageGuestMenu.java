@@ -53,7 +53,7 @@ public class FrontPageGuestMenu extends JFrame
         JButton createSubredditButton = new JButton ("Create Subreddit");
         createSubredditButton.addActionListener (e ->
         {
-            JOptionPane.showMessageDialog (null, "You need to be Logged in to Create a Subreddit");
+            JOptionPane.showMessageDialog (null, "You need to be Logged in to Create a Subreddit.");
         });
 
         JButton createPostButton = new JButton ("Create Post"); //create a button for creating posts
@@ -61,7 +61,7 @@ public class FrontPageGuestMenu extends JFrame
         createPostButton.setForeground (new Color (0xffffff)); //set text color to white
         createPostButton.addActionListener (e ->
         {
-            JOptionPane.showMessageDialog (null, "You need to be Logged in to Create a Post");
+            JOptionPane.showMessageDialog (null, "You need to be Logged in to Create a Post.");
         });
 
         JButton viewNotificationsButton = new JButton ("View Notifications"); //create a button for viewing notifications
@@ -69,7 +69,7 @@ public class FrontPageGuestMenu extends JFrame
         viewNotificationsButton.setForeground (new Color (0xffffff)); //set text color to white
         viewNotificationsButton.addActionListener (e ->
         {
-            JOptionPane.showMessageDialog (null, "You need to be Logged in to View Notifications");
+            JOptionPane.showMessageDialog (null, "You need to be Logged in to View Notifications.");
         });
 
         JButton viewMyProfileButton = new JButton ("Sign In / Sign Up"); //create a button for viewing profile
@@ -134,7 +134,7 @@ public class FrontPageGuestMenu extends JFrame
 
         //create clickable buttons for user and subreddit
         JButton userButton = createButton ("u/" + post.getUser ().getUsername ());
-        JButton subredditButton = createButton ("r/" + post.getSubreddit ().getName ());
+        JButton subredditButton = createButton ("r/" + post.getSubreddit ().getTitle ());
 
         JTextArea contentArea = new JTextArea (post.getContent ()); //create text area for post content
 
@@ -167,7 +167,7 @@ public class FrontPageGuestMenu extends JFrame
         button.setHorizontalAlignment (SwingConstants.LEFT); //align text to the left
         button.setCursor (new Cursor (Cursor.HAND_CURSOR)); //set cursor to hand
 
-        button.addActionListener (e ->
+        button.addActionListener (e -> //add action to button
         {
             System.out.println ("Button clicked: " + text);
         });
@@ -179,23 +179,32 @@ public class FrontPageGuestMenu extends JFrame
     {
         JPanel votePanel = new JPanel (); //create vote panel
 
-        votePanel.setLayout (new BoxLayout (votePanel, BoxLayout.Y_AXIS)); // Stack buttons vertically
+        votePanel.setLayout (new BoxLayout (votePanel, BoxLayout.Y_AXIS)); //stack buttons vertically
 
-        JButton upvoteButton = new JButton ("    "); //create upvote button
+        JButton upvoteButton = new JButton (" ↑ "); //create upvote button
+        JButton downvoteButton = new JButton (" ↓ "); //create downvote button
+
+        //initialize buttons' colors
+        final String[] upVoteButtonColor = {"White"};
+        final String[] downVoteButtonColor = {"White"};
 
         upvoteButton.setPreferredSize (new Dimension (30, 30)); //set button size
         upvoteButton.setFont (upvoteButton.getFont ().deriveFont (25.0f)); //set font size to make button text larger
 
         upvoteButton.setBorder (BorderFactory.createLineBorder (Color.BLACK)); //add border for visibility
-        upvoteButton.setBackground (new Color (0xff4500)); //set background color to orange
-
-        JButton downvoteButton = new JButton ("    "); //create downvote button
+        upvoteButton.setBackground (new Color (0xffffff)); //set background color to orange
 
         downvoteButton.setPreferredSize (new Dimension (30, 30)); //set button size
         downvoteButton.setFont (downvoteButton.getFont ().deriveFont (25.0f)); //set font size to make button text larger
 
         downvoteButton.setBorder (BorderFactory.createLineBorder (Color.BLACK)); //add border for visibility
-        downvoteButton.setBackground (new Color (0x7193ff)); //set background color to light blue
+        downvoteButton.setBackground (new Color (0xffffff)); //set background color to white
+
+        upvoteButton.addActionListener (e -> //add action to button
+                JOptionPane.showMessageDialog (null, "You need to be Logged in to Vote."));
+
+        downvoteButton.addActionListener (e -> //add action to button
+                JOptionPane.showMessageDialog (null, "You need to be Logged in to Vote."));
 
         //add buttons to vote panel
         votePanel.add (upvoteButton);
@@ -213,7 +222,7 @@ public class FrontPageGuestMenu extends JFrame
 
         SwingUtilities.invokeLater (FrontPageGuestMenu :: new);
 
-        Subreddit subreddit1 = new Subreddit ("Questions", "");
+        Subreddit subreddit1 = new Subreddit ("Questions", "", user, false);
         Subreddit.addSubreddit (subreddit1);
         User user1 = new User ("", "MathematicianNo", "");
         Post post1 = new Post ("Are a lot of parents not allowing sleepovers anymore?",
@@ -229,7 +238,7 @@ public class FrontPageGuestMenu extends JFrame
                 subreddit1, user1);
         Post.addPost (post1);
 
-        Subreddit subreddit2 = new Subreddit ("Confess", "");
+        Subreddit subreddit2 = new Subreddit ("Confess", "", user, false);
         Subreddit.addSubreddit (subreddit2);
         User user2 = new User ("", "Anonymous-Dog1", "");
         Post post2 = new Post ("I'm in love with my friends ex",
@@ -243,7 +252,7 @@ public class FrontPageGuestMenu extends JFrame
                 subreddit2, user2);
         Post.addPost (post2);
 
-        Subreddit subreddit3 = new Subreddit ("ShortStory", "");
+        Subreddit subreddit3 = new Subreddit ("ShortStory", "", user, false);
         Subreddit.addSubreddit (subreddit3);
         User user3 = new User ("", "ARedemptionSong", "");
         Post post3 = new Post ("What do you consider the greatest short story of all time?",
