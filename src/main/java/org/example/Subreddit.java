@@ -6,7 +6,7 @@ public class Subreddit
 {
     protected static ArrayList <Subreddit> allSubreddits = new ArrayList <> ();
 
-    protected String name;
+    protected String title;
     protected String description;
 
     protected User creator;
@@ -21,11 +21,11 @@ public class Subreddit
     CONSTRUCTOR FUNCTIONS
     */
 
-    public Subreddit (String name, String description, User creator, boolean nsfw)
+    public Subreddit (String title, String description, User creator, boolean nsfw)
     {
-        this.name        = name;
+        this.title       = title;
         this.description = description;
-        this.creator = creator;
+        this.creator     = creator;
 
         posts = new ArrayList<> ();
         members = new ArrayList<> ();
@@ -50,7 +50,7 @@ public class Subreddit
     {
         for (Subreddit subreddit : allSubreddits)
         {
-            if (subreddit.name.equalsIgnoreCase (name))
+            if (subreddit.title.equalsIgnoreCase (name))
             {
                 return subreddit;
             }
@@ -82,9 +82,9 @@ public class Subreddit
         return allSubreddits;
     }
 
-    public String getName ()
+    public String getTitle ()
     {
-        return name;
+        return title;
     }
 
     public String getDescription ()
