@@ -10,6 +10,10 @@ public class Comment
 
     protected User   user;
     protected String contents;
+    protected Post post;
+
+    protected ArrayList <User> upVotedUsers;
+    protected ArrayList <User> downVotedUsers;
 
     protected int karma;
 
@@ -17,16 +21,72 @@ public class Comment
     CONSTRUCTOR FUNCTIONS
     */
 
-    public Comment (User user, Subreddit subreddit, String contents)
+    public Comment (User user, Post post, String contents)
     {
         this.user = user;
-        this.subreddit = subreddit;
         this.contents = contents;
+
+        upVotedUsers = new ArrayList<> ();
+        downVotedUsers = new ArrayList<> ();
     }
 
     public static void addComment (Comment comment)
     {
         allComments.add (comment);
+    }
+
+    /*
+    COMMENT FUNCTIONS
+    */
+
+    public void upVote (User user)
+    {
+        if (downVotedUsers != null)
+        {
+            if (downVotedUsers.remove (user))
+            {
+                karma++;
+            }
+        }
+
+        if (upVotedUsers != null)
+        {
+            if (upVotedUsers.contains (user))
+            {
+                upVotedUsers.remove (user);
+                karma--;
+            }
+        }
+        else
+        {
+            upVotedUsers.add (user);
+            karma++;
+        }
+    }
+
+    public void downVote (User user)
+    {
+        if (upVotedUsers != null)
+        {
+            if (upVotedUsers.remove (user))
+            {
+                karma--;
+            }
+        }
+
+        if (downVotedUsers != null)
+        {
+            if (downVotedUsers.contains (user))
+            {
+                downVotedUsers.remove (user);
+                karma++;
+            }
+        }
+        else
+        {
+            downVotedUsers.add (user);
+            karma--;
+        }
     }
 
     /*
