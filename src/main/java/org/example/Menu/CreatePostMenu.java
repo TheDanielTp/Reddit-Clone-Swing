@@ -21,14 +21,14 @@ public class CreatePostMenu extends JFrame
         setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE); //exit the program when window is closed
 
         setSize (600, 400); //set window size
-        setLocationRelativeTo (null); //center the frame on the screen
+        setLocationRelativeTo (null); //center align the frame on the screen
 
         JPanel mainPanel = new JPanel (new BorderLayout ()); //create main panel
 
         JPanel optionsPanel = new JPanel (new GridBagLayout ()); //create options panel
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints (); //create a grid bag for creating post
-        gridBagConstraints.anchor = GridBagConstraints.CENTER; //center the grid bag on window
+        gridBagConstraints.anchor = GridBagConstraints.CENTER; //center align the grid bag on window
         gridBagConstraints.insets = new Insets (5, 5, 5, 5); //set grid bag size
 
         JLabel subredditLabel = new JLabel ("Select Subreddit: "); //create a label for subreddit
@@ -52,16 +52,16 @@ public class CreatePostMenu extends JFrame
         textFieldsPanel.setLayout (new BoxLayout (textFieldsPanel, BoxLayout.Y_AXIS)); //set the layout to box layout
 
         JLabel titleLabel = new JLabel ("Title:");
-        titleLabel.setAlignmentX (Component.CENTER_ALIGNMENT); //center the title label
+        titleLabel.setAlignmentX (Component.CENTER_ALIGNMENT); //center align the title label
 
         titleField = new JTextField (10); //set the number of columns to 10
         titleField.setMaximumSize (new Dimension (400, 25)); //set the maximum size to limit the width and height
 
         JLabel contentLabel = new JLabel ("Content:");
-        contentLabel.setAlignmentX (Component.CENTER_ALIGNMENT); //center the content label
+        contentLabel.setAlignmentX (Component.CENTER_ALIGNMENT); //center align the content label
 
         contentArea = new JTextArea ();
-        contentArea.setAlignmentX (Component.CENTER_ALIGNMENT); //center the content text area
+        contentArea.setAlignmentX (Component.CENTER_ALIGNMENT); //center align the content text area
 
         JScrollPane scrollPane = new JScrollPane (contentArea); //create a scroll pane for content text area
 
@@ -126,7 +126,9 @@ public class CreatePostMenu extends JFrame
                     User user = User.getCurrentUser (); //get the current user
 
                     Post post = new Post (title, content, subreddit, user); //create new post
+                    Post.reverseAllPosts ();
                     Post.addPost (post); //add post to all posts list
+                    Post.reverseAllPosts ();
 
                     dispose (); //close the current frame
                     JOptionPane.showMessageDialog (null, "Post created successfully!");
