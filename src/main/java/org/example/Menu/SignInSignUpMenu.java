@@ -26,7 +26,7 @@ public class SignInSignUpMenu extends JFrame
         setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE); //exit the program when window is closed
 
         setSize (700, 400); //set window size
-        setLocationRelativeTo (null); //center the frame on the screen
+        setLocationRelativeTo (null); //center align the frame on the screen
 
         JPanel mainPanel = new JPanel (new BorderLayout ()); //create main panel
 
