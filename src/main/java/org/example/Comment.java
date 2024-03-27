@@ -41,42 +41,16 @@ public class Comment
 
     public void upVote (User user)
     {
-        if (downVotedUsers != null)
+        if (upVotedUsers == null)
         {
-            if (downVotedUsers.remove (user))
-            {
-                karma++;
-            }
+            upVotedUsers = new ArrayList <> ();
         }
-
-        if (upVotedUsers != null)
-        {
-            if (upVotedUsers.contains (user))
-            {
-                upVotedUsers.remove (user);
-                karma--;
-            }
-        }
-        else
+        if (! upVotedUsers.contains (user))
         {
             upVotedUsers.add (user);
             karma++;
-        }
-    }
 
-    public void downVote (User user)
-    {
-        if (upVotedUsers != null)
-        {
-            if (upVotedUsers.remove (user))
-            {
-                karma--;
-            }
-        }
-
-        if (downVotedUsers != null)
-        {
-            if (downVotedUsers.contains (user))
+            if (downVotedUsers != null && downVotedUsers.contains (user))
             {
                 downVotedUsers.remove (user);
                 karma++;
@@ -84,8 +58,32 @@ public class Comment
         }
         else
         {
+            upVotedUsers.remove (user);
+            karma--;
+        }
+    }
+
+    public void downVote (User user)
+    {
+        if (downVotedUsers == null)
+        {
+            downVotedUsers = new ArrayList <> ();
+        }
+        if (! downVotedUsers.contains (user))
+        {
             downVotedUsers.add (user);
             karma--;
+
+            if (upVotedUsers != null && upVotedUsers.contains (user))
+            {
+                upVotedUsers.remove (user);
+                karma--;
+            }
+        }
+        else
+        {
+            downVotedUsers.remove (user);
+            karma++;
         }
     }
 
@@ -116,5 +114,15 @@ public class Comment
     public int getKarma ()
     {
         return karma;
+    }
+
+    public ArrayList<User> getDownVotedUsers ()
+    {
+        return downVotedUsers;
+    }
+
+    public ArrayList<User> getUpVotedUsers ()
+    {
+        return upVotedUsers;
     }
 }
