@@ -27,9 +27,9 @@ public class Subreddit
         this.description = description;
         this.creator     = creator;
 
-        posts = new ArrayList<> ();
-        members = new ArrayList<> ();
-        admins = new ArrayList<> ();
+        posts   = new ArrayList <> ();
+        members = new ArrayList <> ();
+        admins  = new ArrayList <> ();
 
         members.add (creator);
         admins.add (creator);
