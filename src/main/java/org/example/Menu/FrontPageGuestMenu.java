@@ -17,7 +17,7 @@ public class FrontPageGuestMenu extends JFrame
         setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE); //exit the program when window is closed
 
         setSize (800, 600); //set window size
-        setLocationRelativeTo (null); //center the frame on the screen
+        setLocationRelativeTo (null); //center align the frame on the screen
 
         /*
         CREATING TOP PANEL
@@ -130,7 +130,7 @@ public class FrontPageGuestMenu extends JFrame
         postPanel.setBackground (new Color (0xffffff)); //set background color to white
 
         JButton titleButton = createButton (post.getTitle ()); //create clickable button for title
-        titleButton.setHorizontalAlignment (SwingConstants.CENTER); //center the title button text
+        titleButton.setHorizontalAlignment (SwingConstants.CENTER); //center align the title button text
 
         //create clickable buttons for user and subreddit
         JButton userButton = createButton ("u/" + post.getUser ().getUsername ());
@@ -184,6 +184,10 @@ public class FrontPageGuestMenu extends JFrame
         JButton upvoteButton = new JButton (" ↑ "); //create upvote button
         JButton downvoteButton = new JButton (" ↓ "); //create downvote button
 
+        JPanel karmaPanel = new JPanel(); //create a panel for karma label
+        JLabel karmaLabel = new JLabel("Karma: " + post.getKarma()); //initialize karma label with initial value
+        karmaPanel.add(karmaLabel); //add karma label to karma panel
+
         //initialize buttons' colors
         final String[] upVoteButtonColor = {"White"};
         final String[] downVoteButtonColor = {"White"};
@@ -206,15 +210,19 @@ public class FrontPageGuestMenu extends JFrame
         downvoteButton.addActionListener (e -> //add action to button
                 JOptionPane.showMessageDialog (null, "You need to be Logged in to Vote."));
 
-        //add buttons to vote panel
+        //add the components to vote panel
         votePanel.add (upvoteButton);
         votePanel.add (Box.createVerticalStrut (5)); //add space between buttons
         votePanel.add (downvoteButton);
+        votePanel.add(karmaPanel, BorderLayout.WEST);
 
         return votePanel;
     }
 
-    //main function for testing
+    /*
+    MAIN FUNCTION
+    */
+
     public static void main (String[] args)
     {
         User user = new User ("prof.danial4@gmail.com", "TheDanielTp", "Tdtp3148_P");
