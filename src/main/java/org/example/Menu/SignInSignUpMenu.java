@@ -32,14 +32,14 @@ public class SignInSignUpMenu extends JFrame
 
         JPanel signUpSignInPanel = new JPanel (new GridLayout (1, 2, 20, 20)); //create sign up / sign in panel and add padding
 
-        GridBagConstraints gridBagConstraints = new GridBagConstraints (); //create a grid bag for sign-in / sign-up
-        gridBagConstraints.gridx  = 0;
-        gridBagConstraints.gridy  = 0;
-        gridBagConstraints.anchor = GridBagConstraints.CENTER;
-
         /*
         CREATING SIGN-UP PANEL
         */
+
+        GridBagConstraints gridBagConstraints = new GridBagConstraints (); //create a grid bag for sign-up
+        gridBagConstraints.gridx  = 0;
+        gridBagConstraints.gridy  = 0;
+        gridBagConstraints.anchor = GridBagConstraints.CENTER; //center align the grid bag on the screen
 
         JPanel signUpPanel = new JPanel (new GridBagLayout ()); //create sign up panel
         signUpPanel.setBorder (BorderFactory.createEmptyBorder (20, 20, 20, 20));//add padding
@@ -76,74 +76,72 @@ public class SignInSignUpMenu extends JFrame
         gridBagConstraints.gridy++; //increment the row index
 
         JButton signUpButton = new JButton ("Sign Up");
-        signUpButton.addActionListener (new ActionListener ()
+        signUpButton.addActionListener (e -> //add action to button
         {
-            @Override
-            public void actionPerformed (ActionEvent e)
-            {
-                signUp (); //call the sign-up function
-            }
+            signUp (); //call the sign-up function
         });
-        signUpPanel.add (signUpButton, gridBagConstraints);
+
+        signUpPanel.add (signUpButton, gridBagConstraints); //add button to sign up panel
 
         /*
         CREATING SIGN-IN PANEL
         */
 
         JPanel signInPanel = new JPanel (new GridBagLayout ()); //create sign in panel
-        signInPanel.setBorder (BorderFactory.createEmptyBorder (20, 20, 20, 20)); // Added padding
-        gridBagConstraints        = new GridBagConstraints ();
+        signInPanel.setBorder (BorderFactory.createEmptyBorder (20, 20, 20, 20)); //added padding
+
+        gridBagConstraints        = new GridBagConstraints (); //create a grid bag for sign-in
         gridBagConstraints.gridx  = 0;
         gridBagConstraints.gridy  = 0;
-        gridBagConstraints.anchor = GridBagConstraints.CENTER;
-        signInUsernameField       = new JTextField (20); // Set preferred width
-        signInPanel.add (new JLabel ("Username:"), gridBagConstraints);
-        gridBagConstraints.gridy++;
+        gridBagConstraints.anchor = GridBagConstraints.CENTER; //center align the grid bag on the screen
+
+        signInUsernameField = new JTextField (20); //set text field size
+        signInPanel.add (new JLabel ("Username:"), gridBagConstraints); //add username label to panel
+        gridBagConstraints.gridy++; //increment the row index
+
         signInPanel.add (signInUsernameField, gridBagConstraints);
-        gridBagConstraints.gridy++;
-        signInPasswordField = new JPasswordField (20); // Set preferred width
-        signInPanel.add (new JLabel ("Password:"), gridBagConstraints);
-        gridBagConstraints.gridy++;
+        gridBagConstraints.gridy++; //increment the row index
+
+        signInPasswordField = new JPasswordField (20); //set password field size
+        signInPanel.add (new JLabel ("Password:"), gridBagConstraints); //add password label to panel
+        gridBagConstraints.gridy++; //increment the row index
+
         signInPanel.add (signInPasswordField, gridBagConstraints);
-        gridBagConstraints.gridy++;
-        signInPanel.add (new JPanel (), gridBagConstraints); // Empty row for spacing
-        gridBagConstraints.gridy++;
-        gridBagConstraints.weighty = 0; // Reset weight for the button
+        gridBagConstraints.gridy++; //increment the row index
+
+        signInPanel.add (new JPanel (), gridBagConstraints); //empty row to add space
+        gridBagConstraints.gridy++; //increment the row index
+
+        gridBagConstraints.weighty = 0; //reset weight for the button
+
         JButton signInButton = new JButton ("Sign In");
-        signInButton.addActionListener (new ActionListener ()
+        signInButton.addActionListener (e -> //add action to button
         {
-            @Override
-            public void actionPerformed (ActionEvent e)
-            {
-                signIn ();
-            }
-        });
-        signInPanel.add (signInButton, gridBagConstraints);
-
-        signUpSignInPanel.add (signUpPanel); // Add sign up panel to nested panel
-        signUpSignInPanel.add (signInPanel); // Add sign in panel to nested panel
-
-        mainPanel.add (signUpSignInPanel, BorderLayout.CENTER); // Add nested panel to main panel
-
-        // Return to Front Page Button
-        JButton returnButton = new JButton ("Return to Front Page");
-        returnButton.addActionListener (new ActionListener ()
-        {
-            @Override
-            public void actionPerformed (ActionEvent e)
-            {
-                dispose ();
-                new FrontPageGuestMenu ();
-            }
+            signIn (); //call the sign-in function
         });
 
-        // Add return button to the bottom
-        JPanel bottomPanel = new JPanel (new FlowLayout (FlowLayout.CENTER));
-        bottomPanel.add (returnButton);
-        mainPanel.add (bottomPanel, BorderLayout.SOUTH);
+        signInPanel.add (signInButton, gridBagConstraints); //add button to sign in panel
 
-        setContentPane (mainPanel);
-        setVisible (true);
+        signUpSignInPanel.add (signUpPanel); //add sign up panel to panel
+        signUpSignInPanel.add (signInPanel); //add sign in panel to panel
+
+        mainPanel.add (signUpSignInPanel, BorderLayout.CENTER); //add nested panel to main panel
+
+        JButton returnButton = new JButton ("Return to Front Page"); //create a button for returning to front page
+        returnButton.addActionListener (e -> //add action to button
+        {
+            dispose (); //close the current frame
+            new FrontPageGuestMenu (); //open front page menu
+        });
+
+        JPanel bottomPanel = new JPanel (new FlowLayout (FlowLayout.CENTER)); //create a panel for return button
+
+        bottomPanel.add (returnButton); //add return button to bottom panel
+
+        mainPanel.add (bottomPanel, BorderLayout.SOUTH); //add bottom panel to main panel
+
+        setContentPane (mainPanel); //set the content pane property to main panel
+        setVisible (true); //make the frame visible
     }
 
     private void signUp ()
