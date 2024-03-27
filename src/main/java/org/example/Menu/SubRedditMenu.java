@@ -29,7 +29,7 @@ public class SubRedditMenu extends JFrame
         JPanel topPanel = new JPanel (new BorderLayout ()); //create top panel
 
         JButton returnButton = new JButton ("Return to Front Page"); //create a button for returning
-        returnButton.addActionListener (e ->
+        returnButton.addActionListener (e -> //add action to the button
         {
             dispose ();
             new FrontPageMenu ();
@@ -38,7 +38,7 @@ public class SubRedditMenu extends JFrame
         JTextField searchBar = new JTextField (20); //create a text field for search bar
 
         JButton searchButton = new JButton ("Search"); //create a button for searching
-        searchButton.addActionListener (e ->
+        searchButton.addActionListener (e -> //add action to the button
         {
             String search = searchBar.getText ();
         });
@@ -55,7 +55,7 @@ public class SubRedditMenu extends JFrame
         JPanel bottomPanel = new JPanel (new GridLayout (1, 4)); //create bottom panel
 
         JButton createSubredditButton = new JButton ("Create Subreddit");
-        createSubredditButton.addActionListener (e ->
+        createSubredditButton.addActionListener (e -> //add action to the button
         {
             dispose ();
             new CreateSubredditMenu ();
@@ -64,7 +64,7 @@ public class SubRedditMenu extends JFrame
         JButton createPostButton = new JButton ("Create Post"); //create a button for creating posts
         createPostButton.setBackground (new Color (0x0079d3)); //set button color to blue
         createPostButton.setForeground (new Color (0xffffff)); //set text color to white
-        createPostButton.addActionListener (e ->
+        createPostButton.addActionListener (e -> //add action to the button
         {
             dispose (); //close the current frame
             new CreatePostMenu (); //open create post menu
@@ -73,13 +73,13 @@ public class SubRedditMenu extends JFrame
         JButton viewNotificationsButton = new JButton ("View Notifications"); //create a button for viewing notifications
         viewNotificationsButton.setBackground (new Color (0xff4500)); //set button color to orange
         viewNotificationsButton.setForeground (new Color (0xffffff)); //set text color to white
-        viewNotificationsButton.addActionListener (e ->
+        viewNotificationsButton.addActionListener (e -> //add action to the button
         {
 
         });
 
         JButton viewMyProfileButton = new JButton ("View My Profile"); //create a button for viewing profile
-        viewMyProfileButton.addActionListener (e ->
+        viewMyProfileButton.addActionListener (e -> //add action to the button
         {
 
         });
@@ -107,9 +107,6 @@ public class SubRedditMenu extends JFrame
 
         for (Post post : allPosts)
         {
-            System.out.println ("Post subreddit: " + post.getSubreddit ().getTitle ());
-            System.out.println ("Menu subreddit: " + subreddit.getTitle ());
-
             if (post.getSubreddit ().equals (subreddit))
             {
                 JPanel postPanel = new JPanel (new BorderLayout ()); //create post panel
@@ -192,11 +189,6 @@ public class SubRedditMenu extends JFrame
 
         button.setHorizontalAlignment (SwingConstants.LEFT); //align text to the left
         button.setCursor (new Cursor (Cursor.HAND_CURSOR)); //set cursor to hand
-
-        button.addActionListener (e ->
-        {
-            System.out.println ("Button clicked: " + text);
-        });
 
         return button;
     }
