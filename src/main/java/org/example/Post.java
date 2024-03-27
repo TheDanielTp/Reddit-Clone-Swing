@@ -159,4 +159,14 @@ public class Post
     {
         return comments;
     }
+
+    public ArrayList<User> getUpVotedUsers ()
+    {
+        return upVotedUsers;
+    }
+
+    public ArrayList<User> getDownVotedUsers ()
+    {
+        return downVotedUsers;
+    }
 }
