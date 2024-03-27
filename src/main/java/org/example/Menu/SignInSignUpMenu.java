@@ -225,17 +225,14 @@ public class SignInSignUpMenu extends JFrame
         }
     }
 
+    /*
+    MAIN FUNCTION
+    */
+
     public static void main (String[] args)
     {
         User user = new User ("prof.danial4@gmail.com", "TheDanielTp", "Tdtp3148_P");
         User.addUser (user);
-        SwingUtilities.invokeLater (new Runnable ()
-        {
-            @Override
-            public void run ()
-            {
-                new SignInSignUpMenu ();
-            }
-        });
+        SwingUtilities.invokeLater (SignInSignUpMenu :: new);
     }
 }
