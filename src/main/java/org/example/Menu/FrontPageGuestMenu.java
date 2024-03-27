@@ -167,11 +167,6 @@ public class FrontPageGuestMenu extends JFrame
         button.setHorizontalAlignment (SwingConstants.LEFT); //align text to the left
         button.setCursor (new Cursor (Cursor.HAND_CURSOR)); //set cursor to hand
 
-        button.addActionListener (e -> //add action to button
-        {
-            System.out.println ("Button clicked: " + text);
-        });
-
         return button;
     }
 
