@@ -24,21 +24,21 @@ public class CreateSubredditMenu extends JFrame
         setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE); //exit the program when window is closed
 
         setSize (600, 400); //set window size
-        setLocationRelativeTo (null); //center the frame on the screen
+        setLocationRelativeTo (null); //center align the frame on the screen
 
         JPanel mainPanel = new JPanel (new BorderLayout ()); //create main panel
 
         JPanel optionsPanel = new JPanel (new GridBagLayout ()); //create options panel
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints (); //create a grid bag for creating subreddit
-        gridBagConstraints.anchor = GridBagConstraints.CENTER; //center the grid bag on window
+        gridBagConstraints.anchor = GridBagConstraints.CENTER; //center align the grid bag on window
         gridBagConstraints.insets = new Insets (5, 5, 5, 5); //set grid bag size
 
         JPanel textFieldsPanel = new JPanel (); //create text fields panel
         textFieldsPanel.setLayout (new BoxLayout (textFieldsPanel, BoxLayout.Y_AXIS)); //set the layout to box layout
 
         JLabel titleLabel = new JLabel ("Title:");
-        titleLabel.setAlignmentX (Component.CENTER_ALIGNMENT); //center the title label
+        titleLabel.setAlignmentX (Component.CENTER_ALIGNMENT); //center align the title label
 
         JPanel titlePanel = new JPanel (); //create a panel for title and current length
         titlePanel.setLayout (new BoxLayout (titlePanel, BoxLayout.X_AXIS)); //set the layout to box layout
@@ -76,15 +76,15 @@ public class CreateSubredditMenu extends JFrame
         titlePanel.add (characterCountLabelTitle);
 
         JLabel descriptionLabel = new JLabel ("Description:");
-        descriptionLabel.setAlignmentX (Component.CENTER_ALIGNMENT); //center the description label
+        descriptionLabel.setAlignmentX (Component.CENTER_ALIGNMENT); //center align the description label
 
         descriptionArea = new JTextArea ();
-        descriptionArea.setAlignmentX (Component.CENTER_ALIGNMENT); //center the description text area
+        descriptionArea.setAlignmentX (Component.CENTER_ALIGNMENT); //center align the description text area
 
         JScrollPane scrollPane = new JScrollPane (descriptionArea); //create a scroll pane for description text area
 
         over18Checkbox = new JCheckBox ("18+ year old community"); //create checkbox for nsfw community
-        over18Checkbox.setAlignmentX (Component.CENTER_ALIGNMENT); //center the checkbox
+        over18Checkbox.setAlignmentX (Component.CENTER_ALIGNMENT); //center align the checkbox
 
         //add the components to text fields panel
         textFieldsPanel.add (titleLabel);
@@ -100,7 +100,7 @@ public class CreateSubredditMenu extends JFrame
         mainPanel.add (textFieldsPanel, BorderLayout.CENTER);
         mainPanel.add (buttonsPanel, BorderLayout.SOUTH);
 
-        add (mainPanel);
+        add (mainPanel); //add main panel to the frame
         setVisible (true); //make the frame visible
     }
 
@@ -208,7 +208,10 @@ public class CreateSubredditMenu extends JFrame
         }
     }
 
-    //main function for testing
+    /*
+    MAIN FUNCTION
+    */
+
     public static void main (String[] args)
     {
         SwingUtilities.invokeLater (CreateSubredditMenu :: new);
