@@ -207,9 +207,9 @@ public class FrontPageMenu extends JFrame
         JButton upvoteButton = new JButton (" ↑ "); //create upvote button
         JButton downvoteButton = new JButton (" ↓ "); //create downvote button
 
-        JPanel karmaPanel = new JPanel(); // Create a panel for karma label
-        JLabel karmaLabel = new JLabel("Karma: " + post.getKarma()); // Initialize karma label with initial value
-        karmaPanel.add(karmaLabel); // Add karma label to karmaPanel
+        JPanel karmaPanel = new JPanel(); //create a panel for karma label
+        JLabel karmaLabel = new JLabel("Karma: " + post.getKarma()); //initialize karma label with initial value
+        karmaPanel.add(karmaLabel); //add karma label to karma panel
 
         //initialize buttons' colors
         final String[] upVoteButtonColor = {"White"};
@@ -219,13 +219,34 @@ public class FrontPageMenu extends JFrame
         upvoteButton.setFont (upvoteButton.getFont ().deriveFont (25.0f)); //set font size to make button text larger
 
         upvoteButton.setBorder (BorderFactory.createLineBorder (Color.BLACK)); //add border for visibility
-        upvoteButton.setBackground (new Color (0xffffff)); //set background color to orange
 
         downvoteButton.setPreferredSize (new Dimension (30, 30)); //set button size
         downvoteButton.setFont (downvoteButton.getFont ().deriveFont (25.0f)); //set font size to make button text larger
 
         downvoteButton.setBorder (BorderFactory.createLineBorder (Color.BLACK)); //add border for visibility
-        downvoteButton.setBackground (new Color (0xffffff)); //set background color to white
+
+        if (post.getDownVotedUsers ().contains (User.getCurrentUser ()))
+        {
+            downvoteButton.setBackground (new Color (0x7193ff)); //set background color to blue
+            downVoteButtonColor[0] = "Blue";
+            downvoteButton.setForeground (new Color (0xffffff)); //set text color to white
+        }
+        else if (post.getUpVotedUsers ().contains (User.getCurrentUser ()))
+        {
+            upvoteButton.setBackground (new Color (0xff4500)); //set background color to orange
+            upVoteButtonColor[0] = "Orange";
+            upvoteButton.setForeground (new Color (0xffffff)); //set text color to white
+        }
+        else
+        {
+            downvoteButton.setBackground (new Color (0xffffff)); //set background color to white
+            downVoteButtonColor[0] = "White";
+            downvoteButton.setForeground (new Color (0x000000)); //set text color to black
+
+            upvoteButton.setBackground (new Color (0xffffff)); //set background color to white
+            upVoteButtonColor[0] = "White";
+            upvoteButton.setForeground (new Color (0x000000)); //set text color to black
+        }
 
         upvoteButton.addActionListener (e -> //add action to button
         {
@@ -281,11 +302,11 @@ public class FrontPageMenu extends JFrame
             updateKarma (post.getKarma (), karmaLabel);
         });
 
-        //add buttons to vote panel
+        //add the components to vote panel
         votePanel.add (upvoteButton);
         votePanel.add (Box.createVerticalStrut (5)); //add space between buttons
         votePanel.add (downvoteButton);
-        votePanel.add(karmaPanel, BorderLayout.WEST);
+        votePanel.add(karmaPanel);
 
         return votePanel;
     }
@@ -293,13 +314,12 @@ public class FrontPageMenu extends JFrame
     public void updateKarma (int karmaCount, JLabel karmaLabel)
     {
         karmaLabel.setText ("Karma: " + karmaCount); //update karma label text
-        if (karmaCount < 0)
-        {
-            karmaLabel.setText ("Karma: " + 0); //shows 0 if karma is negative
-        }
     }
 
-    //main function for testing
+    /*
+    MAIN FUNCTION
+    */
+
     public static void main (String[] args)
     {
         User user = new User ("prof.danial4@gmail.com", "TheDanielTp", "Tdtp3148_P");
