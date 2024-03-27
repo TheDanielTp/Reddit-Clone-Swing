@@ -56,7 +56,7 @@ public class PostMenu extends JFrame
         JPanel bottomPanel = new JPanel (new GridLayout (1, 4)); //create bottom panel
 
         JButton createSubredditButton = new JButton ("Create Subreddit");
-        createSubredditButton.addActionListener (e ->
+        createSubredditButton.addActionListener (e -> //add action to button
         {
             dispose ();
             new CreateSubredditMenu ();
@@ -65,7 +65,7 @@ public class PostMenu extends JFrame
         JButton createPostButton = new JButton ("Create Post"); //create a button for creating posts
         createPostButton.setBackground (new Color (0x0079d3)); //set button color to blue
         createPostButton.setForeground (new Color (0xffffff)); //set text color to white
-        createPostButton.addActionListener (e ->
+        createPostButton.addActionListener (e -> //add action to button
         {
             dispose (); //close the current frame
             new CreatePostMenu (); //open create post menu
@@ -74,13 +74,13 @@ public class PostMenu extends JFrame
         JButton viewNotificationsButton = new JButton ("View Notifications"); //create a button for viewing notifications
         viewNotificationsButton.setBackground (new Color (0xff4500)); //set button color to orange
         viewNotificationsButton.setForeground (new Color (0xffffff)); //set text color to white
-        viewNotificationsButton.addActionListener (e ->
+        viewNotificationsButton.addActionListener (e -> //add action to button
         {
 
         });
 
         JButton viewMyProfileButton = new JButton ("View My Profile"); //create a button for viewing profile
-        viewMyProfileButton.addActionListener (e ->
+        viewMyProfileButton.addActionListener (e -> //add action to button
         {
 
         });
