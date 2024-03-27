@@ -153,7 +153,16 @@ public class FrontPageMenu extends JFrame
 
         //create clickable buttons for user and subreddit
         JButton userButton = createButton ("u/" + post.getUser ().getUsername ());
+
         JButton subredditButton = createButton ("r/" + post.getSubreddit ().getTitle ());
+        subredditButton.addActionListener (e ->
+        {
+            String title = post.getSubreddit ().getTitle ();
+            Subreddit subreddit = Subreddit.findSubreddit (title);
+            dispose ();
+            assert subreddit != null;
+            new SubRedditMenu (subreddit);
+        });
 
         JTextArea contentArea = new JTextArea (post.getContent ()); //create text area for post content
 
