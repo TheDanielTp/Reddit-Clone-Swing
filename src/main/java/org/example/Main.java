@@ -11,7 +11,5 @@ public class Main
     public static void main (String[] args)
     {
         new FrontPageGuestMenu ();
-        scanner.nextLine ();
-        Post.displayAllPosts ();
     }
 }
