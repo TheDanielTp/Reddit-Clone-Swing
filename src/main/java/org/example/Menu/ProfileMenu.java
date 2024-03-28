@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Arrays;
 
 public class ProfileMenu extends JFrame
 {
@@ -30,6 +31,21 @@ public class ProfileMenu extends JFrame
             new FrontPageMenu (); //open front page menu
         });
         topPanel.add (returnButton); //add return button to top panel
+
+        JPanel bottomPanel = new JPanel (new FlowLayout (FlowLayout.CENTER)); //create top panel
+
+        JButton logoutButton = new JButton ("Log Out"); //create a button for returning
+        logoutButton.addActionListener (e -> //add action to the button
+        {
+            int answer = JOptionPane.showConfirmDialog (null, "Are you sure?", "Confirm", JOptionPane.YES_NO_OPTION);
+            if (answer == JOptionPane.YES_OPTION)
+            {
+                dispose (); //close the current frame
+                User.logout (); //log out the user
+                new FrontPageGuestMenu (); //open front page menu
+            }
+        });
+        bottomPanel.add (logoutButton); //add return button to top panel
 
         JPanel middlePanel = new JPanel (new BorderLayout ()); //create middle panel to contain left and right panels
 
@@ -105,6 +121,7 @@ public class ProfileMenu extends JFrame
         //add top and middle panels to the frame
         getContentPane ().add (topPanel, BorderLayout.NORTH);
         getContentPane ().add (middlePanel, BorderLayout.CENTER);
+        getContentPane ().add (bottomPanel, BorderLayout.SOUTH);
 
         setVisible (true); //make the frame visible
     }
@@ -127,31 +144,46 @@ public class ProfileMenu extends JFrame
                 }
             });
 
-            setSize (400, 100); // Reduced the height of the frame
+            setSize (400, 80); //set size of the frame
             setLocationRelativeTo (null);
             setResizable (false);
 
-            JPanel mainPanel = new JPanel (new FlowLayout (FlowLayout.CENTER)); // Use FlowLayout
+            JPanel mainPanel = new JPanel (new FlowLayout (FlowLayout.CENTER)); //create main panel
 
             textField = new JTextField (20);
-            textField.setPreferredSize (new Dimension (200, 30)); // Set preferred size
-            mainPanel.add (textField); // Add text field to main panel
+            textField.setPreferredSize (new Dimension (200, 30)); //set text field size
+            mainPanel.add (textField); //add text field to main panel
 
             JButton changeUsername = new JButton ("Change Username");
             changeUsername.addActionListener (e ->
             {
                 String username = textField.getText ();
-                if (! username.isEmpty ())
+
+                if (User.validateUsername (username) == 2)
                 {
-                    dispose ();
-                    new ProfileMenu ();
+                    JOptionPane.showMessageDialog (null, "Username already associated with an Account. Please enter a new Username or Sign In.");
+                }
+                else if (User.validateUsername (username) == 0)
+                {
+                    JOptionPane.showMessageDialog (null, "Invalid Username. Usernames must have at least 6 characters.");
+                }
+                else
+                {
+                    dispose (); //close the current frame
+                    int answer = JOptionPane.showConfirmDialog (null, "Do you confirm?", "Confirm", JOptionPane.YES_NO_OPTION);
+                    if (answer == JOptionPane.YES_OPTION)
+                    {
+                        user.changeUsername (username);
+                        JOptionPane.showMessageDialog (null, "Username changed successfully!");
+                    }
+                    new ProfileMenu (); //open front page menu
                 }
             });
 
-            mainPanel.add (changeUsername); // Add button to main panel
-            add (mainPanel);
+            mainPanel.add (changeUsername); //add button to main panel
+            add (mainPanel); //add main panel to the frame
 
-            setVisible (true);
+            setVisible (true); //make the frame visible
         }
     }
 
@@ -173,37 +205,53 @@ public class ProfileMenu extends JFrame
                 }
             });
 
-            setSize (400, 100); // Reduced the height of the frame
+            setSize (400, 80); //set size of the frame
             setLocationRelativeTo (null);
             setResizable (false);
 
-            JPanel mainPanel = new JPanel (new FlowLayout (FlowLayout.CENTER)); // Use FlowLayout
+            JPanel mainPanel = new JPanel (new FlowLayout (FlowLayout.CENTER)); //create main panel
 
             textField = new JTextField (20);
-            textField.setPreferredSize (new Dimension (200, 30)); // Set preferred size
-            mainPanel.add (textField); // Add text field to main panel
+            textField.setPreferredSize (new Dimension (200, 30)); //set text field size
+            mainPanel.add (textField); //add text field to main panel
 
             JButton changeEmail = new JButton ("Change Email");
             changeEmail.addActionListener (e ->
             {
                 String email = textField.getText ();
-                if (! email.isEmpty ())
+
+                if (User.validateEmail (email) == 2)
                 {
-                    dispose ();
-                    new ProfileMenu ();
+                    JOptionPane.showMessageDialog (null, "Email already associated with an Account. Please enter a new Email or Sign In.");
+                }
+                else if (User.validateEmail (email) == 0)
+                {
+                    JOptionPane.showMessageDialog (null, "Invalid Email. Please enter a new Email.");
+                }
+                else
+                {
+                    dispose (); //close the current frame
+                    int answer = JOptionPane.showConfirmDialog (null, "Do you confirm?", "Confirm", JOptionPane.YES_NO_OPTION);
+                    if (answer == JOptionPane.YES_OPTION)
+                    {
+                        user.changeEmail (email);
+                        JOptionPane.showMessageDialog (null, "Email changed successfully!");
+                    }
+                    new ProfileMenu (); //open front page menu
                 }
             });
 
-            mainPanel.add (changeEmail); // Add button to main panel
-            add (mainPanel);
+            mainPanel.add (changeEmail); //add button to main panel
+            add (mainPanel); //add main panel to the frame
 
-            setVisible (true);
+            setVisible (true); //make the frame visible
         }
     }
 
     private static class ChangePassword extends JFrame
     {
-        private final JTextField textField;
+        private final JPasswordField textField1;
+        private final JPasswordField textField2;
 
         public ChangePassword (User user)
         {
@@ -219,31 +267,52 @@ public class ProfileMenu extends JFrame
                 }
             });
 
-            setSize (400, 100); // Reduced the height of the frame
+            setSize (600, 110); //set size of the frame
             setLocationRelativeTo (null);
             setResizable (false);
 
-            JPanel mainPanel = new JPanel (new FlowLayout (FlowLayout.CENTER)); // Use FlowLayout
+            JPanel mainPanel = new JPanel (new FlowLayout (FlowLayout.CENTER)); //create main panel
 
-            textField = new JTextField (20);
-            textField.setPreferredSize (new Dimension (200, 30)); // Set preferred size
-            mainPanel.add (textField); // Add text field to main panel
+            textField1 = new JPasswordField (20);
+            textField1.setPreferredSize (new Dimension (200, 30)); //set text field size
+            mainPanel.add (textField1); //add text field to main panel
+
+            textField2 = new JPasswordField (20);
+            textField2.setPreferredSize (new Dimension (200, 30)); //set text field size
+            mainPanel.add (textField2); //add text field to main panel
 
             JButton changePassword = new JButton ("Change Password");
             changePassword.addActionListener (e ->
             {
-                String password = textField.getText ();
-                if (! password.isEmpty ())
+                String password = Arrays.toString (textField1.getPassword ());
+                String confirmPassword = Arrays.toString (textField2.getPassword ());
+
+                if (User.validatePassword (password, confirmPassword) == 2)
                 {
-                    dispose ();
-                    new ProfileMenu ();
+                    JOptionPane.showMessageDialog (null, "Passwords do not match. Please try again.");
+                }
+                else if (User.validatePassword (password, confirmPassword) == 0)
+                {
+                    JOptionPane.showMessageDialog (null, "Invalid Password. Passwords must have at least one number, one uppercase character and one special character.");
+                }
+                else
+                {
+                    dispose (); //close the current frame
+                    int answer = JOptionPane.showConfirmDialog (null, "Do you confirm?", "Confirm", JOptionPane.YES_NO_OPTION);
+                    if (answer == JOptionPane.YES_OPTION)
+                    {
+                        user.changePassword (password);
+                        JOptionPane.showMessageDialog (null, "Password changed successfully!");
+
+                    }
+                    new ProfileMenu (); //open front page menu
                 }
             });
 
-            mainPanel.add (changePassword); // Add button to main panel
-            add (mainPanel);
+            mainPanel.add (changePassword); //add button to main panel
+            add (mainPanel); //add main panel to the frame
 
-            setVisible (true);
+            setVisible (true); //make the frame visible
         }
     }
 
