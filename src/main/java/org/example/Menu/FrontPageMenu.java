@@ -44,28 +44,25 @@ public class FrontPageMenu extends JFrame
         JButton searchButton = new JButton ("Search"); //create a button for searching
         searchButton.addActionListener (e -> //add action to the button
         {
-            searchButton.addActionListener ((ActionEvent a) ->
+            String search = searchBar.getText (); //get content of the search bar
+
+            ArrayList <Post> filteredPosts;
+            if (search.startsWith ("r/")) //search for subreddits if search begin with r/
             {
-                String search = searchBar.getText (); //get content of the search bar
+                String subredditName = search.substring (2); //exclude r/ from search string
+                filteredPosts = filterPostsBySubreddit (subredditName);
+            }
+            else if (search.startsWith ("u/")) //search for users if search begin with u/
+            {
+                String username = search.substring (2); //exclude u/ from search string
+                filteredPosts = filterPostsByUsername (username);
+            }
+            else //search for posts if search is normal
+            {
+                filteredPosts = filterPostsByTitle (search);
+            }
 
-                ArrayList <Post> filteredPosts;
-                if (search.startsWith ("r/")) //search for subreddits if search begin with r/
-                {
-                    String subredditName = search.substring (2); //exclude r/ from search string
-                    filteredPosts = filterPostsBySubreddit (subredditName);
-                }
-                else if (search.startsWith ("u/")) //search for users if search begin with u/
-                {
-                    String username = search.substring (2); //exclude u/ from search string
-                    filteredPosts = filterPostsByUsername (username);
-                }
-                else //search for posts if search is normal
-                {
-                    filteredPosts = filterPostsByTitle (search);
-                }
-
-                displayFilteredPosts (filteredPosts, mainPanel); //display the filtered results
-            });
+            displayFilteredPosts (filteredPosts, mainPanel); //display the filtered results
         });
 
         //add buttons to the top panel
