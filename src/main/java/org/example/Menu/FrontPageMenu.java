@@ -7,8 +7,10 @@ import org.example.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class FrontPageMenu extends JFrame
 {
@@ -22,6 +24,8 @@ public class FrontPageMenu extends JFrame
         setSize (800, 600); //set window size
         setLocationRelativeTo (null); //center align the frame on the screen
 
+        JPanel mainPanel = new JPanel (); //create main panel
+
         /*
         CREATING TOP PANEL
         */
@@ -31,7 +35,8 @@ public class FrontPageMenu extends JFrame
         JButton returnButton = new JButton ("Return to Front Page"); //create a button for returning
         returnButton.addActionListener (e -> //add action to the button
         {
-
+            dispose ();
+            new FrontPageMenu ();
         });
 
         JTextField searchBar = new JTextField (20); //create a text field for search bar
@@ -39,7 +44,28 @@ public class FrontPageMenu extends JFrame
         JButton searchButton = new JButton ("Search"); //create a button for searching
         searchButton.addActionListener (e -> //add action to the button
         {
-            String search = searchBar.getText ();
+            searchButton.addActionListener ((ActionEvent a) ->
+            {
+                String search = searchBar.getText (); //get content of the search bar
+
+                ArrayList <Post> filteredPosts;
+                if (search.startsWith ("r/")) //search for subreddits if search begin with r/
+                {
+                    String subredditName = search.substring (2); //exclude r/ from search string
+                    filteredPosts = filterPostsBySubreddit (subredditName);
+                }
+                else if (search.startsWith ("u/")) //search for users if search begin with u/
+                {
+                    String username = search.substring (2); //exclude u/ from search string
+                    filteredPosts = filterPostsByUsername (username);
+                }
+                else //search for posts if search is normal
+                {
+                    filteredPosts = filterPostsByTitle (search);
+                }
+
+                displayFilteredPosts (filteredPosts, mainPanel); //display the filtered results
+            });
         });
 
         //add buttons to the top panel
@@ -94,7 +120,6 @@ public class FrontPageMenu extends JFrame
         CREATING MAIN PANEL
         */
 
-        JPanel mainPanel = new JPanel ();
         mainPanel.setBackground (new Color (0xdae0e6)); //set background color to light gray
         mainPanel.setLayout (new BoxLayout (mainPanel, BoxLayout.Y_AXIS)); //set layout to box layout
 
@@ -134,7 +159,7 @@ public class FrontPageMenu extends JFrame
     }
 
     /*
-    POST PANEL
+    POST PANEL FUNCTIONS
     */
 
     private JPanel createPostPanel (Post post)
@@ -158,7 +183,7 @@ public class FrontPageMenu extends JFrame
         JButton subredditButton = createButton ("r/" + post.getSubreddit ().getTitle ());
         subredditButton.addActionListener (e ->
         {
-            String title = post.getSubreddit ().getTitle ();
+            String    title     = post.getSubreddit ().getTitle ();
             Subreddit subreddit = Subreddit.findSubreddit (title);
             dispose ();
             assert subreddit != null;
@@ -200,7 +225,7 @@ public class FrontPageMenu extends JFrame
     }
 
     /*
-    VOTE PANEL
+    VOTE PANEL FUNCTIONS
     */
 
     private JPanel createVotePanel (Post post)
@@ -209,15 +234,15 @@ public class FrontPageMenu extends JFrame
 
         votePanel.setLayout (new BoxLayout (votePanel, BoxLayout.Y_AXIS)); //stack buttons vertically
 
-        JButton upvoteButton = new JButton (" ↑ "); //create upvote button
+        JButton upvoteButton   = new JButton (" ↑ "); //create upvote button
         JButton downvoteButton = new JButton (" ↓ "); //create downvote button
 
-        JPanel karmaPanel = new JPanel(); //create a panel for karma label
-        JLabel karmaLabel = new JLabel("Karma: " + post.getKarma()); //initialize karma label with initial value
-        karmaPanel.add(karmaLabel); //add karma label to karma panel
+        JPanel karmaPanel = new JPanel (); //create a panel for karma label
+        JLabel karmaLabel = new JLabel ("Karma: " + post.getKarma ()); //initialize karma label with initial value
+        karmaPanel.add (karmaLabel); //add karma label to karma panel
 
         //initialize buttons' colors
-        final String[] upVoteButtonColor = {"White"};
+        final String[] upVoteButtonColor   = {"White"};
         final String[] downVoteButtonColor = {"White"};
 
         upvoteButton.setPreferredSize (new Dimension (30, 30)); //set button size
@@ -311,7 +336,7 @@ public class FrontPageMenu extends JFrame
         votePanel.add (upvoteButton);
         votePanel.add (Box.createVerticalStrut (5)); //add space between buttons
         votePanel.add (downvoteButton);
-        votePanel.add(karmaPanel);
+        votePanel.add (karmaPanel);
 
         return votePanel;
     }
@@ -319,6 +344,59 @@ public class FrontPageMenu extends JFrame
     public void updateKarma (int karmaCount, JLabel karmaLabel)
     {
         karmaLabel.setText ("Karma: " + karmaCount); //update karma label text
+    }
+
+    /*
+    SEARCH PANEL FUNCTIONS
+    */
+
+    private ArrayList <Post> filterPostsByTitle (String keyword)
+    {
+        return Post.getAllPosts ().stream () //create a stream with all posts as source
+                //filter posts that contain the keyword in their title
+                .filter (post -> post.getTitle ().toLowerCase ().contains (keyword.toLowerCase ()))
+                .collect (Collectors.toCollection (ArrayList :: new)); //create an arraylist from the collector's results
+    }
+
+    private ArrayList <Post> filterPostsBySubreddit (String subredditName)
+    {
+        return Post.getAllPosts ().stream () //create a stream with all posts as source
+                //filter posts that contain the keyword in their subreddit
+                .filter (post -> post.getSubreddit ().getTitle ().toLowerCase ().contains (subredditName.toLowerCase ()))
+                .collect (Collectors.toCollection (ArrayList :: new)); //create an arraylist from the collector's results
+    }
+
+    private ArrayList <Post> filterPostsByUsername (String username)
+    {
+        return Post.getAllPosts ().stream () //create a stream with all posts as source
+                //filter posts that contain the keyword in their username
+                .filter (post -> post.getUser ().getUsername ().toLowerCase ().contains (username.toLowerCase ()))
+                .collect (Collectors.toCollection (ArrayList :: new)); //create an arraylist from the collector's results
+    }
+
+    private void displayFilteredPosts (ArrayList <Post> filteredPosts, JPanel mainPanel)
+    {
+        mainPanel.removeAll (); //clear every post from the main panel
+
+        for (Post post : filteredPosts) //re-create the filtered posts
+        {
+            JPanel postPanel = new JPanel (new BorderLayout ()); //create post panel
+
+            JPanel contentPanel = createPostPanel (post); //create content panel
+            contentPanel.setBackground (new Color (0xffffff)); //set background color to white
+
+            JPanel votePanel = createVotePanel (post); //create vote panel
+
+            //add the panels to post panel
+            postPanel.add (votePanel, BorderLayout.WEST);
+            postPanel.add (contentPanel, BorderLayout.CENTER);
+
+            mainPanel.add (postPanel); //add post panel to main panel
+            mainPanel.add (Box.createVerticalStrut (20)); //add vertical spacing between post panels
+        }
+
+        mainPanel.revalidate (); //make the panel recalculate according to changes
+        mainPanel.repaint (); //display the changes in the frame
     }
 
     /*
@@ -338,14 +416,14 @@ public class FrontPageMenu extends JFrame
         User user1 = new User ("", "MathematicianNo", "");
         Post post1 = new Post ("Are a lot of parents not allowing sleepovers anymore?",
                 """
-                        I’m 38 and have no kids but have taught middle school for 16 years. My friend who has a 10 year old just asked me my opinion on sleepovers and said many parents don’t allow them anymore and it’s a big debate among parents because of dangers of potential abuse, social media, neighbors, guns.
-                                                
-                        Most of those things would never even come to my mind if I had a hypothetical kid, and I wouldn't let my kid go somewhere where I don’t know the family well… but the whole thing kind of blew me away.
-                                                
-                        Is this actually a common concern among parents?
-                                                
-                        For a bit of context, we’re of course in the USA with all of the crazy gun violence, and my friend is a lot more conservative and conspiracy theorist than liberal ol’ me. My biggest and probably only concern from that list would be the guns.
-                        """,
+                I’m 38 and have no kids but have taught middle school for 16 years. My friend who has a 10 year old just asked me my opinion on sleepovers and said many parents don’t allow them anymore and it’s a big debate among parents because of dangers of potential abuse, social media, neighbors, guns.
+                                        
+                Most of those things would never even come to my mind if I had a hypothetical kid, and I wouldn't let my kid go somewhere where I don’t know the family well… but the whole thing kind of blew me away.
+                                        
+                Is this actually a common concern among parents?
+                                        
+                For a bit of context, we’re of course in the USA with all of the crazy gun violence, and my friend is a lot more conservative and conspiracy theorist than liberal ol’ me. My biggest and probably only concern from that list would be the guns.
+                """,
                 subreddit1, user1);
         Post.addPost (post1);
         Comment comment = new Comment (user1, post1, "Hello");
@@ -356,12 +434,12 @@ public class FrontPageMenu extends JFrame
         User user2 = new User ("", "Anonymous-Dog1", "");
         Post post2 = new Post ("I'm in love with my friends ex",
                 """
-                        My friend m15 broke up with his gf of 2 years f15 and during their breakup she would always text me m16 about their problems and I was always there to comfort her and over time we've grown closer but to me, I've caught feelings but I'm pretty sure she just sees me as a good friend.
-                                                
-                        Many problems with trying to talk talk to her like the fact that they are freshly broken up and that I couldn't do that to my friend but she is honestly the most beautiful and funny girls I've ever met and out energies match so well. 
-                                                
-                        I've been stressing over it for a while now and I think it's time I seek advice. any one got some?
-                        """,
+                My friend m15 broke up with his gf of 2 years f15 and during their breakup she would always text me m16 about their problems and I was always there to comfort her and over time we've grown closer but to me, I've caught feelings but I'm pretty sure she just sees me as a good friend.
+                                        
+                Many problems with trying to talk talk to her like the fact that they are freshly broken up and that I couldn't do that to my friend but she is honestly the most beautiful and funny girls I've ever met and out energies match so well. 
+                                        
+                I've been stressing over it for a while now and I think it's time I seek advice. any one got some?
+                """,
                 subreddit2, user2);
         Post.addPost (post2);
 
@@ -370,10 +448,10 @@ public class FrontPageMenu extends JFrame
         User user3 = new User ("", "ARedemptionSong", "");
         Post post3 = new Post ("What do you consider the greatest short story of all time?",
                 """
-                        For me, it is The Most Dangerous Game (1924) in which a castaway is hunted down on an island by a mad Russian aristocrat and his henchman.
-                                                
-                        It is probably the most significant short story. Not only did it inspire paintball of all things, but it was a pre-war visitation of the sort of stories you would get in the 50’s (James Bond etc) of exotic locations, fearsome underlings and a battle of wits.
-                        """,
+                For me, it is The Most Dangerous Game (1924) in which a castaway is hunted down on an island by a mad Russian aristocrat and his henchman.
+                                        
+                It is probably the most significant short story. Not only did it inspire paintball of all things, but it was a pre-war visitation of the sort of stories you would get in the 50’s (James Bond etc) of exotic locations, fearsome underlings and a battle of wits.
+                """,
                 subreddit3, user3);
         Post.addPost (post3);
     }
