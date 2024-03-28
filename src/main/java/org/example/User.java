@@ -77,6 +77,33 @@ public class User
         return null;
     }
 
+    public static void logout ()
+    {
+        currentUser = null;
+    }
+
+    public void changeUsername (String username)
+    {
+        allUsernames.remove (this.username);
+        this.username = username;
+        allUsernames.add (username);
+    }
+
+    public void changeEmail (String email)
+    {
+        allEmails.remove (this.email);
+        this.email = email;
+        allEmails.add (email);
+    }
+
+    public void changePassword (String password)
+    {
+        allPasswords.remove (this.password);
+        password = hashPassword (password, salt);
+        this.password = password;
+        allPasswords.add (password);
+    }
+
     /*
     AUTHORITY FUNCTIONS
     */
