@@ -120,7 +120,7 @@ public class CreatePostMenu extends JFrame
             }
             else
             {
-                int answer = JOptionPane.showConfirmDialog (null, "Do you confirm?", "Title", JOptionPane.YES_NO_OPTION);
+                int answer = JOptionPane.showConfirmDialog (null, "Do you confirm?", "Create Post", JOptionPane.YES_NO_OPTION);
                 if (answer == JOptionPane.YES_OPTION)
                 {
                     User user = User.getCurrentUser (); //get the current user
