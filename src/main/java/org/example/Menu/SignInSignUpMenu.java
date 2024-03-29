@@ -1,17 +1,14 @@
 package org.example.Menu;
 
+import org.example.DataManager;
 import org.example.User;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Scanner;
+import java.io.Serializable;
 
-public class SignInSignUpMenu extends JFrame
+public class SignInSignUpMenu extends JFrame implements Serializable
 {
-    public static Scanner scanner = new Scanner (System.in);
-
     protected JTextField     signUpEmailField;
     protected JTextField     signUpUsernameField;
     protected JPasswordField signUpPasswordField;
@@ -131,6 +128,7 @@ public class SignInSignUpMenu extends JFrame
         returnButton.addActionListener (e -> //add action to button
         {
             dispose (); //close the current frame
+            DataManager.saveData ();
             new FrontPageGuestMenu (); //open front page menu
         });
 
@@ -146,10 +144,10 @@ public class SignInSignUpMenu extends JFrame
 
     private void signUp ()
     {
-        String email = signUpEmailField.getText ();
-        String username = signUpUsernameField.getText ();
-        String password = new String (signUpPasswordField.getPassword ());
-        String confirmPassword = new String (signUpConfirmPasswordField.getPassword ());
+        String email = signUpEmailField.getText (); //get email from email text field
+        String username = signUpUsernameField.getText (); //get username from username text field
+        String password = new String (signUpPasswordField.getPassword ()); //get password from password text field
+        String confirmPassword = new String (signUpConfirmPasswordField.getPassword ()); //get confirm password from confirm password text field
 
         if (User.validateEmail (email) == 2)
         {
@@ -177,22 +175,23 @@ public class SignInSignUpMenu extends JFrame
         }
         else
         {
-            dispose ();
+            dispose (); //close the current frame
 
-            User user = new User (email, username, password);
-            User.addUser (user);
+            User user = new User (email, username, password); //create a new user
+            User.addUser (user); //add user to all users list
 
             JOptionPane.showMessageDialog (null, "Account successfully created.");
-            User.setCurrentUser (user);
+            User.setCurrentUser (user); //set the current user to user
 
-            new FrontPageMenu ();
+            DataManager.saveData ();
+            new FrontPageMenu (); //open front page menu
         }
     }
 
     private void signIn ()
     {
-        String username = signInUsernameField.getText ();
-        String password = new String (signInPasswordField.getPassword ());
+        String username = signInUsernameField.getText (); //get username from username text field
+        String password = new String (signInPasswordField.getPassword ()); //get password from password text field
 
         if (User.validateUsername (username) == 1)
         {
@@ -204,33 +203,23 @@ public class SignInSignUpMenu extends JFrame
         }
         else
         {
-            User user = User.findUserByUsername (username);
-            assert user != null;
+            User user = User.findUserByUsername (username); //find the user to validate password
 
+            assert user != null;
             if (! user.checkPassword (password, user))
             {
                 JOptionPane.showMessageDialog (null, "Wrong Password. Please try again.");
             }
             else
             {
-                dispose ();
+                dispose (); //close the current frame
 
-                User.setCurrentUser (user);
+                User.setCurrentUser (user); //set the current user to user
                 JOptionPane.showMessageDialog (null, "Login successful.");
 
-                new FrontPageMenu ();
+                DataManager.saveData ();
+                new FrontPageMenu (); //open front page menu
             }
         }
-    }
-
-    /*
-    MAIN FUNCTION
-    */
-
-    public static void main (String[] args)
-    {
-        User user = new User ("prof.danial4@gmail.com", "TheDanielTp", "Tdtp3148_P");
-        User.addUser (user);
-        SwingUtilities.invokeLater (SignInSignUpMenu :: new);
     }
 }
