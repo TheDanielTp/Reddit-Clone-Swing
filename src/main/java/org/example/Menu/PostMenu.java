@@ -1,19 +1,17 @@
 package org.example.Menu;
 
-import org.example.Comment;
-import org.example.Post;
-import org.example.Subreddit;
-import org.example.User;
+import org.example.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import javax.swing.border.EmptyBorder;
 
-
-public class PostMenu extends JFrame
+public class PostMenu extends JFrame implements Serializable
 {
     public PostMenu (Post post)
     {
@@ -22,6 +20,8 @@ public class PostMenu extends JFrame
 
         setSize (800, 600); //set window size
         setLocationRelativeTo (null); //center align the frame on the screen
+
+        JPanel mainPanel = new JPanel (); //create main panel
 
         /*
         CREATING TOP PANEL
@@ -33,6 +33,7 @@ public class PostMenu extends JFrame
         returnButton.addActionListener (e -> //add action to button
         {
             dispose (); //close the current frame
+            DataManager.saveData ();
             new FrontPageMenu (); //open front page menu
         });
 
@@ -41,7 +42,25 @@ public class PostMenu extends JFrame
         JButton searchButton = new JButton ("Search"); //create a button for searching
         searchButton.addActionListener (e -> //add action to button
         {
-            String search = searchBar.getText ();
+            String search = searchBar.getText (); //get content of the search bar
+
+            ArrayList <Post> filteredPosts;
+            if (search.startsWith ("r/")) //search for subreddits if search begin with r/
+            {
+                String subredditName = search.substring (2); //exclude r/ from search string
+                filteredPosts = filterPostsBySubreddit (subredditName);
+            }
+            else if (search.startsWith ("u/")) //search for users if search begin with u/
+            {
+                String username = search.substring (2); //exclude u/ from search string
+                filteredPosts = filterPostsByUsername (username);
+            }
+            else //search for posts if search is normal
+            {
+                filteredPosts = filterPostsByTitle (search);
+            }
+
+            displayFilteredPosts (filteredPosts, mainPanel); //display the filtered results
         });
 
         //add buttons to the top panel
@@ -56,33 +75,37 @@ public class PostMenu extends JFrame
         JPanel bottomPanel = new JPanel (new GridLayout (1, 4)); //create bottom panel
 
         JButton createSubredditButton = new JButton ("Create Subreddit");
-        createSubredditButton.addActionListener (e -> //add action to button
+        createSubredditButton.addActionListener (e -> //add action to the button
         {
-            dispose ();
-            new CreateSubredditMenu ();
+            dispose (); //close the current frame
+            DataManager.saveData ();
+            new CreateSubredditMenu (); //open create subreddit menu
         });
 
         JButton createPostButton = new JButton ("Create Post"); //create a button for creating posts
         createPostButton.setBackground (new Color (0x0079d3)); //set button color to blue
         createPostButton.setForeground (new Color (0xffffff)); //set text color to white
-        createPostButton.addActionListener (e -> //add action to button
+        createPostButton.addActionListener (e -> //add action to the button
         {
             dispose (); //close the current frame
+            DataManager.saveData ();
             new CreatePostMenu (); //open create post menu
         });
 
         JButton viewNotificationsButton = new JButton ("View Notifications"); //create a button for viewing notifications
         viewNotificationsButton.setBackground (new Color (0xff4500)); //set button color to orange
         viewNotificationsButton.setForeground (new Color (0xffffff)); //set text color to white
-        viewNotificationsButton.addActionListener (e -> //add action to button
+        viewNotificationsButton.addActionListener (e -> //add action to the button
         {
 
         });
 
         JButton viewMyProfileButton = new JButton ("View My Profile"); //create a button for viewing profile
-        viewMyProfileButton.addActionListener (e -> //add action to button
+        viewMyProfileButton.addActionListener (e -> //add action to the button
         {
-
+            dispose (); //close the current frame
+            DataManager.saveData ();
+            new ProfileMenu (); //open profile menu
         });
 
         //add buttons to the bottom panel
@@ -91,7 +114,6 @@ public class PostMenu extends JFrame
         bottomPanel.add (viewNotificationsButton);
         bottomPanel.add (viewMyProfileButton);
 
-        JPanel mainPanel = new JPanel ();
         mainPanel.setLayout (new BoxLayout (mainPanel, BoxLayout.Y_AXIS));
 
         JPanel postPanel = new JPanel (new BorderLayout ()); //create post panel
@@ -107,21 +129,27 @@ public class PostMenu extends JFrame
         mainPanel.add (postPanel); //add post panel to main panel
         mainPanel.add (Box.createVerticalStrut (20)); //add vertical spacing between post panels
 
-        ArrayList <Comment> comments = post.getComments (); //display comments
-        for (Comment comment : comments)
-        {
-            JPanel commentPanel = createCommentPanel (comment); //create a panel for each comment
-            mainPanel.add (commentPanel); //add comment panel to main panel
-        }
-
-        JButton addCommentButton = new JButton ("Add Comment"); //create a button for adding comments
-        addCommentButton.addActionListener (e ->
-        {
-            dispose (); //close the current frame
-            new AddCommentMenu (post); //open add comment menu
+        JButton addCommentButton = new JButton("Add Comment"); //create a button for adding comments
+        addCommentButton.addActionListener(e -> {
+            dispose(); //close the current frame
+            DataManager.saveData ();
+            new AddCommentMenu(post); //open add comment menu
         });
 
-        mainPanel.add (addCommentButton, BorderLayout.CENTER); //add add comment button to main panel
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); //create button panel
+        buttonPanel.setBorder(new EmptyBorder(10, 0, 10, 0)); //add padding
+
+        buttonPanel.add(addCommentButton); //add the button to button panel
+
+        mainPanel.add(buttonPanel); //add button panel to main panel
+        mainPanel.add(Box.createVerticalStrut(20)); //add vertical spacing between the button and the comment panels
+
+        ArrayList<Comment> commentsList = post.getComments(); //display comments
+
+        for (Comment comment : commentsList) {
+            JPanel commentPanel = createCommentPanel(comment); //create a panel for each comment
+            mainPanel.add(commentPanel); //add comment panel to main panel
+        }
 
         JScrollPane scrollPane = new JScrollPane (mainPanel); //create a scroll pane
         scrollPane.setVerticalScrollBarPolicy (JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); //the scroll pane always appears
@@ -135,6 +163,10 @@ public class PostMenu extends JFrame
         setVisible (true); //make the frame visible
     }
 
+    /*
+    POST PANEL FUNCTIONS
+    */
+
     private JPanel createPostPanel (Post post)
     {
         JPanel postPanel = new JPanel (new BorderLayout ());
@@ -145,7 +177,7 @@ public class PostMenu extends JFrame
         titleButton.setHorizontalAlignment (SwingConstants.CENTER); //center the title button text
 
         //create clickable buttons for user and subreddit
-        JButton userButton = createButton ("u/" + post.getUser ().getUsername ());
+        JButton userButton      = createButton ("u/" + post.getUser ().getUsername ());
         JButton subredditButton = createButton ("r/" + post.getSubreddit ().getTitle ());
 
         JTextArea contentArea = new JTextArea (post.getContent ()); //create text area for post content
@@ -182,6 +214,10 @@ public class PostMenu extends JFrame
         return button;
     }
 
+    /*
+    COMMENT PANEL FUNCTIONS
+    */
+
     private JPanel createCommentPanel (Comment comment)
     {
         JPanel commentPanel = new JPanel (new BorderLayout ()); //create a panel for comment
@@ -213,21 +249,90 @@ public class PostMenu extends JFrame
         return commentPanel;
     }
 
+    private static class AddCommentMenu extends JFrame
+    {
+        private final JTextArea commentTextArea; //initialize a text area for comment contents
+
+        public AddCommentMenu (Post post)
+        {
+            setTitle ("Add Comment");
+            setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE); //prevents the program from getting closed on exit
+            addWindowListener (new WindowAdapter ()
+            {
+                @Override
+                public void windowClosing (WindowEvent event)
+                {
+                    dispose (); //close the current frame
+                    DataManager.saveData ();
+                    new PostMenu (post); //open post menu
+                }
+            });
+
+            setSize (400, 200); //set window size
+            setLocationRelativeTo (null); //center align the frame on the screen
+
+            JPanel mainPanel = new JPanel (new BorderLayout ()); //create main panel
+
+            commentTextArea = new JTextArea (); //create a text area for comment contents
+            mainPanel.add (new JScrollPane (commentTextArea), BorderLayout.CENTER); //add scroll pane to main panel
+
+            JButton postCommentButton = new JButton ("Post Comment");
+            postCommentButton.addActionListener (e -> //add action to button
+            {
+                String commentContent = commentTextArea.getText ();
+                if (! commentContent.isEmpty ())
+                {
+                    Comment newComment = new Comment (User.getCurrentUser (), post, commentContent); //create a new comment
+                    post.addComment (newComment); //add comment to comments list
+
+                    dispose (); //close the current frame
+                    DataManager.saveData ();
+                    new PostMenu (post); //open the post menu
+                }
+            });
+
+            mainPanel.add (postCommentButton, BorderLayout.SOUTH); //add button to main panel
+            add (mainPanel); //add main panel to the frame
+
+            setVisible (true); //make the frame visible
+        }
+    }
+
+    /*
+    VOTE PANEL FUNCTIONS
+    */
+
     private JPanel createVotePanel (Post post)
     {
         JPanel votePanel = new JPanel (); //create vote panel
 
         votePanel.setLayout (new BoxLayout (votePanel, BoxLayout.Y_AXIS)); //stack buttons vertically
 
-        JButton upvoteButton = new JButton (" ↑ "); //create upvote button
+        JButton upvoteButton   = new JButton (" ↑ "); //create upvote button
         JButton downvoteButton = new JButton (" ↓ "); //create downvote button
 
         JPanel karmaPanel = new JPanel (); //create a panel for karma label
-        JLabel karmaLabel = new JLabel ("Karma: " + post.getKarma ()); //initialize karma label with initial value
+        JLabel karmaLabel = new JLabel (); //initialize karma label with initial value
+        if (post.getKarma () < 1000)
+        {
+            karmaLabel.setText ("Karma: " + post.getKarma ()); //update karma label text
+        }
+        else if (post.getKarma () < 1000000)
+        {
+            double doubleKarma    = (double) post.getKarma () / 1000; //cast the int to double
+            String formattedKarma = String.format ("%.1fk", doubleKarma); //show only one number after decimal point with k
+            karmaLabel.setText ("Karma: " + formattedKarma); //update karma label text
+        }
+        else if (post.getKarma () < 1000000000)
+        {
+            double doubleKarma    = (double) post.getKarma () / 1000000; //cast the int to double
+            String formattedKarma = String.format ("%.1fm", doubleKarma); //show only one number after decimal point with m
+            karmaLabel.setText ("Karma: " + formattedKarma); //update karma label text
+        }
         karmaPanel.add (karmaLabel); //add karma label to karma panel
 
         //initialize buttons' colors
-        final String[] upVoteButtonColor = {"White"};
+        final String[] upVoteButtonColor   = {"White"};
         final String[] downVoteButtonColor = {"White"};
 
         upvoteButton.setPreferredSize (new Dimension (30, 30)); //set button size
@@ -240,13 +345,13 @@ public class PostMenu extends JFrame
 
         downvoteButton.setBorder (BorderFactory.createLineBorder (Color.BLACK)); //add border for visibility
 
-        if (post.getDownVotedUsers ().contains (User.getCurrentUser ()))
+        if (post.getDownVotedUsers ().contains (User.getCurrentUser ())) //if user already used downvote
         {
             downvoteButton.setBackground (new Color (0x7193ff)); //set background color to blue
             downVoteButtonColor[0] = "Blue";
             downvoteButton.setForeground (new Color (0xffffff)); //set text color to white
         }
-        else if (post.getUpVotedUsers ().contains (User.getCurrentUser ()))
+        else if (post.getUpVotedUsers ().contains (User.getCurrentUser ())) //if user already used upvote
         {
             upvoteButton.setBackground (new Color (0xff4500)); //set background color to orange
             upVoteButtonColor[0] = "Orange";
@@ -332,7 +437,7 @@ public class PostMenu extends JFrame
 
         votePanel.setLayout (new BoxLayout (votePanel, BoxLayout.Y_AXIS)); //stack buttons vertically
 
-        JButton upvoteButton = new JButton (" ↑ "); //create upvote button
+        JButton upvoteButton   = new JButton (" ↑ "); //create upvote button
         JButton downvoteButton = new JButton (" ↓ "); //create downvote button
 
         JPanel karmaPanel = new JPanel (); //create a panel for karma label
@@ -340,7 +445,7 @@ public class PostMenu extends JFrame
         karmaPanel.add (karmaLabel); //add karma label to karma panel
 
         //initialize buttons' colors
-        final String[] upVoteButtonColor = {"White"};
+        final String[] upVoteButtonColor   = {"White"};
         final String[] downVoteButtonColor = {"White"};
 
         upvoteButton.setPreferredSize (new Dimension (30, 30)); //set button size
@@ -445,79 +550,56 @@ public class PostMenu extends JFrame
         karmaLabel.setText ("Karma: " + karmaCount); //update karma label text
     }
 
-    private static class AddCommentMenu extends JFrame
-    {
-        private final JTextArea commentTextArea; //initialize a text area for comment contents
-
-        public AddCommentMenu (Post post)
-        {
-            setTitle ("Add Comment");
-            setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE); //prevents the program from getting closed on exit
-            addWindowListener (new WindowAdapter ()
-            {
-                @Override
-                public void windowClosing (WindowEvent event)
-                {
-                    dispose (); //close the current frame
-                    new PostMenu (post); //open post menu
-                }
-            });
-
-            setSize (400, 200); //set window size
-            setLocationRelativeTo (null); //center align the frame on the screen
-
-            JPanel mainPanel = new JPanel (new BorderLayout ()); //create main panel
-
-            commentTextArea = new JTextArea (); //create a text area for comment contents
-            mainPanel.add (new JScrollPane (commentTextArea), BorderLayout.CENTER); //add scroll pane to main panel
-
-            JButton postCommentButton = new JButton ("Post Comment");
-            postCommentButton.addActionListener (e -> //add action to button
-            {
-                String commentContent = commentTextArea.getText ();
-                if (! commentContent.isEmpty ())
-                {
-                    Comment newComment = new Comment (User.getCurrentUser (), post, commentContent); //create a new comment
-                    post.addComment (newComment); //add comment to comments list
-
-                    dispose (); //close the current frame
-                    new PostMenu (post); //open the post menu
-                }
-            });
-
-            mainPanel.add (postCommentButton, BorderLayout.SOUTH); //add button to main panel
-            add (mainPanel); //add main panel to the frame
-
-            setVisible (true); //make the frame visible
-        }
-    }
-
     /*
-    MAIN FUNCTION
+    SEARCH PANEL FUNCTIONS
     */
 
-    public static void main (String[] args)
+    private ArrayList <Post> filterPostsByTitle (String keyword)
     {
-        User user = new User ("prof.danial4@gmail.com", "TheDanielTp", "Tdtp3148_P");
-        User.addUser (user);
-        User.setCurrentUser (user);
+        return Post.getAllPosts ().stream () //create a stream with all posts as source
+                //filter posts that contain the keyword in their title
+                .filter (post -> post.getTitle ().toLowerCase ().contains (keyword.toLowerCase ()))
+                .collect (Collectors.toCollection (ArrayList :: new)); //create an arraylist from the collector's results
+    }
 
-        Subreddit subreddit1 = new Subreddit ("Questions", "", user, false);
-        Subreddit.addSubreddit (subreddit1);
-        User user1 = new User ("", "MathematicianNo", "");
-        Post post1 = new Post ("Are a lot of parents not allowing sleepovers anymore?",
-                """
-                        I’m 38 and have no kids but have taught middle school for 16 years. My friend who has a 10 year old just asked me my opinion on sleepovers and said many parents don’t allow them anymore and it’s a big debate among parents because of dangers of potential abuse, social media, neighbors, guns.
-                                                
-                        Most of those things would never even come to my mind if I had a hypothetical kid, and I wouldn't let my kid go somewhere where I don’t know the family well… but the whole thing kind of blew me away.
-                                                
-                        Is this actually a common concern among parents?
-                                                
-                        For a bit of context, we’re of course in the USA with all of the crazy gun violence, and my friend is a lot more conservative and conspiracy theorist than liberal ol’ me. My biggest and probably only concern from that list would be the guns.
-                        """,
-                subreddit1, user1);
-        Post.addPost (post1);
+    private ArrayList <Post> filterPostsBySubreddit (String subredditName)
+    {
+        return Post.getAllPosts ().stream () //create a stream with all posts as source
+                //filter posts that contain the keyword in their subreddit
+                .filter (post -> post.getSubreddit ().getTitle ().toLowerCase ().contains (subredditName.toLowerCase ()))
+                .collect (Collectors.toCollection (ArrayList :: new)); //create an arraylist from the collector's results
+    }
 
-        new PostMenu (post1);
+    private ArrayList <Post> filterPostsByUsername (String username)
+    {
+        return Post.getAllPosts ().stream () //create a stream with all posts as source
+                //filter posts that contain the keyword in their username
+                .filter (post -> post.getUser ().getUsername ().toLowerCase ().contains (username.toLowerCase ()))
+                .collect (Collectors.toCollection (ArrayList :: new)); //create an arraylist from the collector's results
+    }
+
+    private void displayFilteredPosts (ArrayList <Post> filteredPosts, JPanel mainPanel)
+    {
+        mainPanel.removeAll (); //clear every post from the main panel
+
+        for (Post post : filteredPosts) //re-create the filtered posts
+        {
+            JPanel postPanel = new JPanel (new BorderLayout ()); //create post panel
+
+            JPanel contentPanel = createPostPanel (post); //create content panel
+            contentPanel.setBackground (new Color (0xffffff)); //set background color to white
+
+            JPanel votePanel = createVotePanel (post); //create vote panel
+
+            //add the panels to post panel
+            postPanel.add (votePanel, BorderLayout.WEST);
+            postPanel.add (contentPanel, BorderLayout.CENTER);
+
+            mainPanel.add (postPanel); //add post panel to main panel
+            mainPanel.add (Box.createVerticalStrut (20)); //add vertical spacing between post panels
+        }
+
+        mainPanel.revalidate (); //make the panel recalculate according to changes
+        mainPanel.repaint (); //display the changes in the frame
     }
 }
