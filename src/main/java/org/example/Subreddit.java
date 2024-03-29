@@ -1,21 +1,22 @@
 package org.example;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Subreddit
+public class Subreddit implements Serializable
 {
-    protected static ArrayList <Subreddit> allSubreddits = new ArrayList <> ();
+    private static ArrayList <Subreddit> allSubreddits = new ArrayList <> ();
 
-    protected String title;
-    protected String description;
+    private String title;
+    private String description;
 
-    protected User creator;
+    private User creator;
 
-    protected ArrayList <Post> posts;
-    protected ArrayList <User> members;
-    protected ArrayList <User> admins;
+    private ArrayList <Post> posts;
+    private ArrayList <User> members;
+    private ArrayList <User> admins;
 
-    protected boolean nsfw;
+    private boolean nsfw;
 
     /*
     CONSTRUCTOR FUNCTIONS
@@ -42,6 +43,11 @@ public class Subreddit
         allSubreddits.add (subreddit);
     }
 
+    public static void setAllSubreddits (ArrayList<Subreddit> subreddits)
+    {
+        allSubreddits = subreddits;
+    }
+
     /*
     SUBREDDIT FUNCTIONS
     */
@@ -56,11 +62,6 @@ public class Subreddit
             }
         }
         return null;
-    }
-
-    public void addPost (Post post)
-    {
-        posts.add (post);
     }
 
     public void addMember (User user)
