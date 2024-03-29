@@ -183,13 +183,19 @@ public class FrontPageMenu extends JFrame implements Serializable
 
         //create clickable buttons for user and subreddit
         JButton userButton = createButton ("u/" + post.getUser ().getUsername ());
+        userButton.addActionListener (e ->
+        {
+            User user = post.getUser ();
+
+            dispose ();
+            DataManager.saveData ();
+            new UserMenu (user);
+        });
 
         JButton subredditButton = createButton ("r/" + post.getSubreddit ().getTitle ());
         subredditButton.addActionListener (e ->
         {
-            String    title     = post.getSubreddit ().getTitle ();
-            Subreddit subreddit = Subreddit.findSubreddit (title);
-            assert subreddit != null;
+            Subreddit subreddit = post.getSubreddit ();
 
             dispose ();
             DataManager.saveData ();
