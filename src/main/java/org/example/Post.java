@@ -1,24 +1,25 @@
 package org.example;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Post
+public class Post implements Serializable
 {
-    protected static ArrayList <Post> allPosts = new ArrayList <> ();
+    private static ArrayList <Post> allPosts = new ArrayList <> ();
 
-    protected Subreddit subreddit;
-    protected User      user;
+    private Subreddit subreddit;
+    private User      user;
 
-    protected String title;
-    protected String content;
+    private String title;
+    private String content;
 
-    protected int karma;
+    private int karma;
 
-    protected ArrayList <Comment> comments;
+    private ArrayList <Comment> comments;
 
-    protected ArrayList <User> upVotedUsers;
-    protected ArrayList <User> downVotedUsers;
+    private ArrayList <User> upVotedUsers;
+    private ArrayList <User> downVotedUsers;
 
     /*
     CONSTRUCTOR FUNCTIONS
@@ -39,6 +40,11 @@ public class Post
     public static void addPost (Post post)
     {
         allPosts.add (post);
+    }
+
+    public static void setAllPosts (ArrayList<Post> posts)
+    {
+        allPosts = posts;
     }
 
     /*
@@ -101,6 +107,11 @@ public class Post
     public static void reverseAllPosts ()
     {
         Collections.reverse (allPosts);
+    }
+
+    public void setKarma (int karma)
+    {
+        this.karma = karma;
     }
 
     /*
