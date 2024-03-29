@@ -1,14 +1,16 @@
 package org.example.Menu;
 
+import org.example.DataManager;
 import org.example.User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class ProfileMenu extends JFrame
+public class ProfileMenu extends JFrame implements Serializable
 {
     public ProfileMenu ()
     {
@@ -28,9 +30,15 @@ public class ProfileMenu extends JFrame
         returnButton.addActionListener (e -> //add action to the button
         {
             dispose (); //close the current frame
+            DataManager.saveData ();
             new FrontPageMenu (); //open front page menu
         });
-        topPanel.add (returnButton); //add return button to top panel
+
+        JLabel karmaLabel = new JLabel ("Karma: " + User.getCurrentUser ().getKarma ()); //create karma label
+
+        //add the components to the panel
+        topPanel.add (returnButton);
+        topPanel.add (karmaLabel);
 
         JPanel bottomPanel = new JPanel (new FlowLayout (FlowLayout.CENTER)); //create top panel
 
@@ -41,6 +49,7 @@ public class ProfileMenu extends JFrame
             if (answer == JOptionPane.YES_OPTION)
             {
                 dispose (); //close the current frame
+                DataManager.saveData ();
                 User.logout (); //log out the user
                 new FrontPageGuestMenu (); //open front page menu
             }
@@ -81,6 +90,7 @@ public class ProfileMenu extends JFrame
         {
             new ChangeUsername (User.getCurrentUser ());
             dispose ();
+            DataManager.saveData ();
         });
         changeUsernameButton.setPreferredSize (new Dimension (150, 30)); //set button size
 
@@ -90,6 +100,7 @@ public class ProfileMenu extends JFrame
         {
             new ChangeEmail (User.getCurrentUser ());
             dispose ();
+            DataManager.saveData ();
         });
         changeEmailButton.setPreferredSize (new Dimension (150, 30)); //set button size
 
@@ -99,6 +110,7 @@ public class ProfileMenu extends JFrame
         {
             new ChangePassword (User.getCurrentUser ());
             dispose ();
+            DataManager.saveData ();
         });
         changePasswordButton.setPreferredSize (new Dimension (150, 30)); //set button size
 
@@ -126,6 +138,10 @@ public class ProfileMenu extends JFrame
         setVisible (true); //make the frame visible
     }
 
+    /*
+    AUTHORITY FUNCTIONS
+    */
+
     private static class ChangeUsername extends JFrame
     {
         private final JTextField textField;
@@ -139,8 +155,9 @@ public class ProfileMenu extends JFrame
                 @Override
                 public void windowClosing (WindowEvent event)
                 {
-                    dispose ();
-                    new ProfileMenu ();
+                    dispose (); //close the current frame
+                    DataManager.saveData ();
+                    new ProfileMenu (); //open profile menu
                 }
             });
 
@@ -176,6 +193,7 @@ public class ProfileMenu extends JFrame
                         user.changeUsername (username);
                         JOptionPane.showMessageDialog (null, "Username changed successfully!");
                     }
+                    DataManager.saveData ();
                     new ProfileMenu (); //open front page menu
                 }
             });
@@ -201,6 +219,7 @@ public class ProfileMenu extends JFrame
                 public void windowClosing (WindowEvent event)
                 {
                     dispose ();
+                    DataManager.saveData ();
                     new ProfileMenu ();
                 }
             });
@@ -237,6 +256,7 @@ public class ProfileMenu extends JFrame
                         user.changeEmail (email);
                         JOptionPane.showMessageDialog (null, "Email changed successfully!");
                     }
+                    DataManager.saveData ();
                     new ProfileMenu (); //open front page menu
                 }
             });
@@ -263,6 +283,7 @@ public class ProfileMenu extends JFrame
                 public void windowClosing (WindowEvent event)
                 {
                     dispose ();
+                    DataManager.saveData ();
                     new ProfileMenu ();
                 }
             });
@@ -305,6 +326,7 @@ public class ProfileMenu extends JFrame
                         JOptionPane.showMessageDialog (null, "Password changed successfully!");
 
                     }
+                    DataManager.saveData ();
                     new ProfileMenu (); //open front page menu
                 }
             });
@@ -314,16 +336,5 @@ public class ProfileMenu extends JFrame
 
             setVisible (true); //make the frame visible
         }
-    }
-
-    public static void main (String[] args)
-    {
-        SwingUtilities.invokeLater (() ->
-        {
-            User user = new User ("prof.danial4@gmail.com", "TheDanielTp", "Tdtp3148_P");
-            User.addUser (user);
-            User.setCurrentUser (user);
-            new ProfileMenu ();
-        });
     }
 }
