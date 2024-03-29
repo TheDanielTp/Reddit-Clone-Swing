@@ -34,18 +34,12 @@ public class SubRedditMenu extends JFrame implements Serializable
             new FrontPageMenu ();
         });
 
-        JTextField searchBar = new JTextField (20); //create a text field for search bar
-
-        JButton searchButton = new JButton ("Search"); //create a button for searching
-        searchButton.addActionListener (e -> //add action to the button
-        {
-            String search = searchBar.getText ();
-        });
+        JTextField description = new JTextField (" " + subreddit.getDescription (), 20); //create a text field for subreddit description
+        description.setEditable (false);
 
         //add buttons to the top panel
         topPanel.add (returnButton, BorderLayout.WEST);
-        topPanel.add (searchBar, BorderLayout.CENTER);
-        topPanel.add (searchButton, BorderLayout.EAST);
+        topPanel.add (description, BorderLayout.CENTER);
 
         /*
         CREATING BOTTOM PANEL
@@ -71,12 +65,22 @@ public class SubRedditMenu extends JFrame implements Serializable
             new CreatePostMenu (); //open create post menu
         });
 
-        JButton viewNotificationsButton = new JButton ("View Notifications"); //create a button for viewing notifications
+        JButton viewNotificationsButton;
+        viewNotificationsButton = new JButton ("Join Subreddit"); //create a button for viewing notifications
         viewNotificationsButton.setBackground (new Color (0xff4500)); //set button color to orange
         viewNotificationsButton.setForeground (new Color (0xffffff)); //set text color to white
         viewNotificationsButton.addActionListener (e -> //add action to the button
         {
-
+            if (subreddit.getMembers ().contains (User.getCurrentUser ()))
+            {
+                JOptionPane.showMessageDialog (null, "You are already a member of this subreddit.");
+            }
+            else
+            {
+                User.getCurrentUser ().joinSubreddit (subreddit);
+                subreddit.addMember (User.getCurrentUser ());
+                JOptionPane.showMessageDialog (null, "You successfully joined " + subreddit.getTitle () + ".");
+            }
         });
 
         JButton viewMyProfileButton = new JButton ("View My Profile"); //create a button for viewing profile
@@ -158,7 +162,7 @@ public class SubRedditMenu extends JFrame implements Serializable
         titleButton.setHorizontalAlignment (SwingConstants.CENTER); //center align the title button text
 
         //create clickable buttons for user and subreddit
-        JButton userButton = createButton ("u/" + post.getUser ().getUsername ());
+        JButton userButton      = createButton ("u/" + post.getUser ().getUsername ());
         JButton subredditButton = createButton ("r/" + post.getSubreddit ().getTitle ());
 
         JTextArea contentArea = new JTextArea (post.getContent ()); //create text area for post content
@@ -205,7 +209,7 @@ public class SubRedditMenu extends JFrame implements Serializable
 
         votePanel.setLayout (new BoxLayout (votePanel, BoxLayout.Y_AXIS)); //stack buttons vertically
 
-        JButton upvoteButton = new JButton (" ↑ "); //create upvote button
+        JButton upvoteButton   = new JButton (" ↑ "); //create upvote button
         JButton downvoteButton = new JButton (" ↓ "); //create downvote button
 
         JPanel karmaPanel = new JPanel (); //create a panel for karma label
@@ -229,7 +233,7 @@ public class SubRedditMenu extends JFrame implements Serializable
         karmaPanel.add (karmaLabel); //add karma label to karma panel
 
         //initialize buttons' colors
-        final String[] upVoteButtonColor = {"White"};
+        final String[] upVoteButtonColor   = {"White"};
         final String[] downVoteButtonColor = {"White"};
 
         upvoteButton.setPreferredSize (new Dimension (30, 30)); //set button size
