@@ -1,21 +1,22 @@
 package org.example;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Comment
+public class Comment implements Serializable
 {
-    protected static ArrayList<Comment> allComments = new ArrayList<> ();
+    private static ArrayList <Comment> allComments = new ArrayList <> ();
 
-    protected Subreddit subreddit;
+    private Subreddit subreddit;
 
-    protected User   user;
-    protected String contents;
-    protected Post post;
+    private User   user;
+    private String contents;
+    private Post   post;
 
-    protected ArrayList <User> upVotedUsers;
-    protected ArrayList <User> downVotedUsers;
+    private ArrayList <User> upVotedUsers;
+    private ArrayList <User> downVotedUsers;
 
-    protected int karma;
+    private int karma;
 
     /*
     CONSTRUCTOR FUNCTIONS
@@ -23,16 +24,21 @@ public class Comment
 
     public Comment (User user, Post post, String contents)
     {
-        this.user = user;
+        this.user     = user;
         this.contents = contents;
 
-        upVotedUsers = new ArrayList<> ();
-        downVotedUsers = new ArrayList<> ();
+        upVotedUsers   = new ArrayList <> ();
+        downVotedUsers = new ArrayList <> ();
     }
 
     public static void addComment (Comment comment)
     {
         allComments.add (comment);
+    }
+
+    public static void setAllComments (ArrayList<Comment> comments)
+    {
+        allComments = comments;
     }
 
     /*
@@ -91,7 +97,7 @@ public class Comment
     GET-INFO FUNCTIONS
     */
 
-    public static ArrayList<Comment> getAllComments ()
+    public static ArrayList <Comment> getAllComments ()
     {
         return allComments;
     }
@@ -116,12 +122,12 @@ public class Comment
         return karma;
     }
 
-    public ArrayList<User> getDownVotedUsers ()
+    public ArrayList <User> getDownVotedUsers ()
     {
         return downVotedUsers;
     }
 
-    public ArrayList<User> getUpVotedUsers ()
+    public ArrayList <User> getUpVotedUsers ()
     {
         return upVotedUsers;
     }

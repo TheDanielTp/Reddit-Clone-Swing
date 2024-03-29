@@ -1,19 +1,25 @@
 package org.example.Menu;
 
+import org.example.DataManager;
 import org.example.Subreddit;
 import org.example.Post;
 import org.example.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CreatePostMenu extends JFrame
+public class CreatePostMenu extends JFrame implements Serializable
 {
-    protected JComboBox <String> subredditComboBox;
+    private JComboBox <String> subredditComboBox;
 
-    protected JTextField titleField;
-    protected JTextArea contentArea;
+    private JTextField titleField;
+    private JTextArea  contentArea;
+
+    /*
+    CONSTRUCTOR FUNCTION
+    */
 
     public CreatePostMenu ()
     {
@@ -82,6 +88,10 @@ public class CreatePostMenu extends JFrame
         setVisible (true); //make the frame visible
     }
 
+    /*
+    CREATOR FUNCTIONS
+    */
+
     private JPanel getButtonsPanel ()
     {
         JPanel buttonsPanel = new JPanel (new FlowLayout (FlowLayout.CENTER)); //create buttons panel
@@ -92,6 +102,7 @@ public class CreatePostMenu extends JFrame
         returnButton.addActionListener (e -> //add action to the button
         {
             dispose (); //close the current frame
+            DataManager.saveData ();
             new FrontPageMenu (); //open front page menu
         });
 
@@ -100,10 +111,10 @@ public class CreatePostMenu extends JFrame
         postButton.setForeground (new Color (0xffffff)); //set text color to white
         postButton.addActionListener (e -> //add action to the button
         {
-            String selectedSubreddit = (String) subredditComboBox.getSelectedItem (); //get subreddit's title from combo box
-            Subreddit subreddit = getSubredditByName (selectedSubreddit); //find subreddit by subreddit's title
+            String    selectedSubreddit = (String) subredditComboBox.getSelectedItem (); //get subreddit's title from combo box
+            Subreddit subreddit         = getSubredditByName (selectedSubreddit); //find subreddit by subreddit's title
 
-            String title = titleField.getText (); //get post's title from title field
+            String title   = titleField.getText (); //get post's title from title field
             String content = contentArea.getText (); //get post's content from content area
 
             if (subreddit == null) //if no subreddit is selected
@@ -131,6 +142,7 @@ public class CreatePostMenu extends JFrame
                     Post.reverseAllPosts ();
 
                     dispose (); //close the current frame
+                    DataManager.saveData ();
                     JOptionPane.showMessageDialog (null, "Post created successfully!");
                     new FrontPageMenu (); //open front page menu
                 }
@@ -168,11 +180,5 @@ public class CreatePostMenu extends JFrame
             }
         }
         return null;
-    }
-
-    //main function for testing
-    public static void main (String[] args)
-    {
-        SwingUtilities.invokeLater (CreatePostMenu :: new);
     }
 }
