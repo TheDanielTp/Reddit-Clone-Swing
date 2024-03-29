@@ -5,43 +5,45 @@ import java.util.ArrayList;
 
 public class DataManager
 {
-    // Method to save all data to a file
-    public static void saveData (String fileName)
+    public static void saveData ()
     {
-        try (ObjectOutputStream outputStream = new ObjectOutputStream (new FileOutputStream (fileName)))
+        try (ObjectOutputStream outputStream = new ObjectOutputStream (new FileOutputStream ("Data")))
         {
-            // Save allUsers
-            outputStream.writeObject (User.getAllUsers ());
-            // Save allPosts
-            outputStream.writeObject (Post.getAllPosts ());
-            // Save allComments
-            outputStream.writeObject (Comment.getAllComments ());
-            // Save allSubreddits
-            outputStream.writeObject (Subreddit.getAllSubreddits ());
-            // Save other data if needed
+            outputStream.writeBoolean (Main.reversed); //save reversed boolean in the file
+            outputStream.writeObject (User.getAllUsers ()); //save all users list in the file
+            outputStream.writeObject (Post.getAllPosts ()); //save all posts list in the file
+            outputStream.writeObject (Comment.getAllComments ()); //save comments users list in the file
+            outputStream.writeObject (Subreddit.getAllSubreddits ()); //save all subreddits list in the file
         }
-        catch (IOException e)
+        catch (IOException e) //throw exception
         {
             e.printStackTrace ();
         }
     }
 
-    // Method to load all data from a file
-    public static void loadData (String fileName)
+    public static void loadData ()
     {
-        try (ObjectInputStream inputStream = new ObjectInputStream (new FileInputStream (fileName)))
+        try (ObjectInputStream inputStream = new ObjectInputStream (new FileInputStream ("Data")))
         {
-            // Load allUsers
-            User.setAllUsers ((ArrayList <User>) inputStream.readObject ());
-            // Load allPosts
-            Post.setAllPosts ((ArrayList <Post>) inputStream.readObject ());
-            // Load allComments
-            Comment.setAllComments ((ArrayList <Comment>) inputStream.readObject ());
-            // Load allSubreddits
-            Subreddit.setAllSubreddits ((ArrayList <Subreddit>) inputStream.readObject ());
-            // Load other data if needed
+            Main.reversed = inputStream.readBoolean (); //load reversed boolean from the file
+
+            //load all users list from the file
+            ArrayList <User> loadedUsers = (ArrayList <User>) inputStream.readObject ();
+            User.setAllUsers (loadedUsers);
+
+            //load all posts list from the file
+            ArrayList <Post> loadedPosts = (ArrayList <Post>) inputStream.readObject ();
+            Post.setAllPosts (loadedPosts);
+
+            //load all comments list from the file
+            ArrayList <Comment> loadedComments = (ArrayList <Comment>) inputStream.readObject ();
+            Comment.setAllComments (loadedComments);
+
+            //load all subreddits list from the file
+            ArrayList <Subreddit> loadedSubreddits = (ArrayList <Subreddit>) inputStream.readObject ();
+            Subreddit.setAllSubreddits (loadedSubreddits);
         }
-        catch (IOException | ClassNotFoundException e)
+        catch (IOException | ClassNotFoundException e) //throw exception
         {
             e.printStackTrace ();
         }
