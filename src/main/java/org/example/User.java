@@ -1,5 +1,6 @@
 package org.example;
 
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -7,26 +8,26 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class User
+public class User implements Serializable
 {
-    protected static ArrayList <User> allUsers = new ArrayList <> ();
+    private static ArrayList <User> allUsers = new ArrayList <> ();
 
-    protected static ArrayList <String> allEmails    = new ArrayList <> ();
-    protected static ArrayList <String> allUsernames = new ArrayList <> ();
-    protected static ArrayList <String> allPasswords = new ArrayList <> ();
+    private static ArrayList <String> allEmails    = new ArrayList <> ();
+    private static ArrayList <String> allUsernames = new ArrayList <> ();
+    private static ArrayList <String> allPasswords = new ArrayList <> ();
 
-    protected String email;
-    protected String username;
-    protected String password;
+    private String email;
+    private String username;
+    private String password;
 
-    protected int    karma;
-    protected byte[] salt;
+    private int    karma;
+    private byte[] salt;
 
-    protected ArrayList <Subreddit> subreddits;
-    protected ArrayList <Post>      posts;
-    protected ArrayList <Comment>   comments;
+    private ArrayList <Subreddit> subreddits;
+    private ArrayList <Post>      posts;
+    private ArrayList <Comment>   comments;
 
-    protected static User currentUser;
+    private static User currentUser;
 
     /*
     CONSTRUCTOR FUNCTIONS
@@ -46,9 +47,9 @@ public class User
         this.password = password;
         allPasswords.add (password);
 
-        subreddits = new ArrayList<> ();
-        posts = new ArrayList<> ();
-        comments = new ArrayList<> ();
+        subreddits = new ArrayList <> ();
+        posts      = new ArrayList <> ();
+        comments   = new ArrayList <> ();
     }
 
     public static void addUser (User user)
@@ -59,6 +60,11 @@ public class User
     public static void setCurrentUser (User user)
     {
         currentUser = user;
+    }
+
+    public static void setAllUsers (ArrayList<User> users)
+    {
+        allUsers = users;
     }
 
     /*
@@ -99,9 +105,28 @@ public class User
     public void changePassword (String password)
     {
         allPasswords.remove (this.password);
-        password = hashPassword (password, salt);
+        password      = hashPassword (password, salt);
         this.password = password;
         allPasswords.add (password);
+    }
+
+    public void calculateKarma ()
+    {
+        for (Post post : Post.getAllPosts ())
+        {
+            if (post.getUser ().getUsername ().equalsIgnoreCase (this.username))
+            {
+                this.karma += post.getKarma ();
+            }
+        }
+
+        for (Comment comment : Comment.getAllComments ())
+        {
+            if (comment.getUser ().getUsername ().equalsIgnoreCase (this.username))
+            {
+                karma += comment.getKarma ();
+            }
+        }
     }
 
     /*
@@ -201,7 +226,7 @@ public class User
 
     public static byte[] generateSalt ()
     {
-        byte[] salt = new byte[16];
+        byte[]       salt   = new byte[16];
         SecureRandom random = new SecureRandom ();
         random.nextBytes (salt);
         return salt;
@@ -291,6 +316,7 @@ public class User
 
     public int getKarma ()
     {
+        calculateKarma ();
         return karma;
     }
 }
