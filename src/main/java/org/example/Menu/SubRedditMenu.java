@@ -1,16 +1,14 @@
 package org.example.Menu;
 
-import org.example.Comment;
-import org.example.Subreddit;
-import org.example.Post;
-import org.example.User;
+import org.example.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class SubRedditMenu extends JFrame
+public class SubRedditMenu extends JFrame implements Serializable
 {
     protected static boolean reversed = false;
 
@@ -32,6 +30,7 @@ public class SubRedditMenu extends JFrame
         returnButton.addActionListener (e -> //add action to the button
         {
             dispose ();
+            DataManager.saveData ();
             new FrontPageMenu ();
         });
 
@@ -57,8 +56,9 @@ public class SubRedditMenu extends JFrame
         JButton createSubredditButton = new JButton ("Create Subreddit");
         createSubredditButton.addActionListener (e -> //add action to the button
         {
-            dispose ();
-            new CreateSubredditMenu ();
+            dispose (); //close the current frame
+            DataManager.saveData ();
+            new CreateSubredditMenu (); //open create subreddit menu
         });
 
         JButton createPostButton = new JButton ("Create Post"); //create a button for creating posts
@@ -67,6 +67,7 @@ public class SubRedditMenu extends JFrame
         createPostButton.addActionListener (e -> //add action to the button
         {
             dispose (); //close the current frame
+            DataManager.saveData ();
             new CreatePostMenu (); //open create post menu
         });
 
@@ -149,6 +150,7 @@ public class SubRedditMenu extends JFrame
         titleButton.addActionListener (e ->
         {
             dispose ();
+            DataManager.saveData ();
             new PostMenu (post);
         });
 
@@ -207,7 +209,23 @@ public class SubRedditMenu extends JFrame
         JButton downvoteButton = new JButton (" ↓ "); //create downvote button
 
         JPanel karmaPanel = new JPanel (); //create a panel for karma label
-        JLabel karmaLabel = new JLabel ("Karma: " + post.getKarma ()); //initialize karma label with initial value
+        JLabel karmaLabel = new JLabel (); //initialize karma label with initial value
+        if (post.getKarma () < 1000)
+        {
+            karmaLabel.setText ("Karma: " + post.getKarma ()); //update karma label text
+        }
+        else if (post.getKarma () < 1000000)
+        {
+            double doubleKarma    = (double) post.getKarma () / 1000; //cast the int to double
+            String formattedKarma = String.format ("%.1fk", doubleKarma); //show only one number after decimal point with k
+            karmaLabel.setText ("Karma: " + formattedKarma); //update karma label text
+        }
+        else if (post.getKarma () < 1000000000)
+        {
+            double doubleKarma    = (double) post.getKarma () / 1000000; //cast the int to double
+            String formattedKarma = String.format ("%.1fm", doubleKarma); //show only one number after decimal point with m
+            karmaLabel.setText ("Karma: " + formattedKarma); //update karma label text
+        }
         karmaPanel.add (karmaLabel); //add karma label to karma panel
 
         //initialize buttons' colors
@@ -224,13 +242,13 @@ public class SubRedditMenu extends JFrame
 
         downvoteButton.setBorder (BorderFactory.createLineBorder (Color.BLACK)); //add border for visibility
 
-        if (post.getDownVotedUsers ().contains (User.getCurrentUser ()))
+        if (post.getDownVotedUsers ().contains (User.getCurrentUser ())) //if user already used downvote
         {
             downvoteButton.setBackground (new Color (0x7193ff)); //set background color to blue
             downVoteButtonColor[0] = "Blue";
             downvoteButton.setForeground (new Color (0xffffff)); //set text color to white
         }
-        else if (post.getUpVotedUsers ().contains (User.getCurrentUser ()))
+        else if (post.getUpVotedUsers ().contains (User.getCurrentUser ())) //if user already used upvote
         {
             upvoteButton.setBackground (new Color (0xff4500)); //set background color to orange
             upVoteButtonColor[0] = "Orange";
@@ -313,63 +331,5 @@ public class SubRedditMenu extends JFrame
     public void updateKarma (int karmaCount, JLabel karmaLabel)
     {
         karmaLabel.setText ("Karma: " + karmaCount); //update karma label text
-    }
-
-    /*
-    MAIN FUNCTION
-    */
-
-    public static void main (String[] args)
-    {
-        User user = new User ("prof.danial4@gmail.com", "TheDanielTp", "Tdtp3148_P");
-        User.addUser (user);
-        User.setCurrentUser (user);
-
-        Subreddit subreddit1 = new Subreddit ("Questions", "", user, false);
-        Subreddit.addSubreddit (subreddit1);
-
-        User user1 = new User ("", "MathematicianNo", "");
-        Post post1 = new Post ("Are a lot of parents not allowing sleepovers anymore?",
-                """
-                        I’m 38 and have no kids but have taught middle school for 16 years. My friend who has a 10 year old just asked me my opinion on sleepovers and said many parents don’t allow them anymore and it’s a big debate among parents because of dangers of potential abuse, social media, neighbors, guns.
-                                                
-                        Most of those things would never even come to my mind if I had a hypothetical kid, and I wouldn't let my kid go somewhere where I don’t know the family well… but the whole thing kind of blew me away.
-                                                
-                        Is this actually a common concern among parents?
-                                                
-                        For a bit of context, we’re of course in the USA with all of the crazy gun violence, and my friend is a lot more conservative and conspiracy theorist than liberal ol’ me. My biggest and probably only concern from that list would be the guns.
-                        """,
-                subreddit1, user1);
-        Post.addPost (post1);
-        Comment comment = new Comment (user1, post1, "Hello");
-        post1.addComment (comment);
-
-        Subreddit subreddit2 = new Subreddit ("Confess", "", user, false);
-        Subreddit.addSubreddit (subreddit2);
-        User user2 = new User ("", "Anonymous-Dog1", "");
-        Post post2 = new Post ("I'm in love with my friends ex",
-                """
-                        My friend m15 broke up with his gf of 2 years f15 and during their breakup she would always text me m16 about their problems and I was always there to comfort her and over time we've grown closer but to me, I've caught feelings but I'm pretty sure she just sees me as a good friend.
-                                                
-                        Many problems with trying to talk talk to her like the fact that they are freshly broken up and that I couldn't do that to my friend but she is honestly the most beautiful and funny girls I've ever met and out energies match so well. 
-                                                
-                        I've been stressing over it for a while now and I think it's time I seek advice. any one got some?
-                        """,
-                subreddit2, user2);
-        Post.addPost (post2);
-
-        Subreddit subreddit3 = new Subreddit ("ShortStory", "", user, false);
-        Subreddit.addSubreddit (subreddit3);
-        User user3 = new User ("", "ARedemptionSong", "");
-        Post post3 = new Post ("What do you consider the greatest short story of all time?",
-                """
-                        For me, it is The Most Dangerous Game (1924) in which a castaway is hunted down on an island by a mad Russian aristocrat and his henchman.
-                                                
-                        It is probably the most significant short story. Not only did it inspire paintball of all things, but it was a pre-war visitation of the sort of stories you would get in the 50’s (James Bond etc) of exotic locations, fearsome underlings and a battle of wits.
-                        """,
-                subreddit3, user3);
-        Post.addPost (post3);
-
-        new SubRedditMenu (subreddit2);
     }
 }
