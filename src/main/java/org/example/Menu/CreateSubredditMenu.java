@@ -1,5 +1,6 @@
 package org.example.Menu;
 
+import org.example.DataManager;
 import org.example.Subreddit;
 import org.example.User;
 
@@ -10,13 +11,18 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 import java.awt.*;
+import java.io.Serializable;
 
-public class CreateSubredditMenu extends JFrame
+public class CreateSubredditMenu extends JFrame implements Serializable
 {
-    protected JTextField titleField;
-    protected JTextArea  descriptionArea;
-    protected JCheckBox  over18Checkbox;
-    protected JLabel     characterCountLabelTitle;
+    private JTextField titleField;
+    private JTextArea  descriptionArea;
+    private JCheckBox  over18Checkbox;
+    private JLabel     characterCountLabelTitle;
+
+    /*
+    CONSTRUCTOR FUNCTIONS
+    */
 
     public CreateSubredditMenu ()
     {
@@ -104,6 +110,10 @@ public class CreateSubredditMenu extends JFrame
         setVisible (true); //make the frame visible
     }
 
+    /*
+    TITLE FUNCTIONS
+    */
+
     private void setMaxLength (JTextField textField)
     {
         textField.setDocument (new PlainDocument ()
@@ -125,6 +135,23 @@ public class CreateSubredditMenu extends JFrame
         });
     }
 
+    private void updateCharacterCount ()
+    {
+        int currentLength = titleField.getText ().length ();
+        if (currentLength < 10)
+        {
+            characterCountLabelTitle.setText ("  " + currentLength + "/32"); //print two spaces if length is less than 10
+        }
+        else
+        {
+            characterCountLabelTitle.setText (" " + currentLength + "/32"); //print one space if length is more than 10
+        }
+    }
+
+    /*
+    CREATOR FUNCTIONS
+    */
+
     private JPanel getButtonsPanel ()
     {
         JPanel buttonsPanel = new JPanel (new FlowLayout (FlowLayout.CENTER)); //create buttons panel
@@ -135,6 +162,7 @@ public class CreateSubredditMenu extends JFrame
         returnButton.addActionListener (e -> //add action to the button
         {
             dispose (); //close the current frame
+            DataManager.saveData ();
             new FrontPageMenu (); //open front page menu
         });
 
@@ -143,9 +171,9 @@ public class CreateSubredditMenu extends JFrame
         subredditButton.setForeground (new Color (0xffffff)); //set text color to white
         subredditButton.addActionListener (e -> //add action to the button
         {
-            String title = titleField.getText (); //gets subreddit's title from title field
-            String description = descriptionArea.getText (); //gets subreddit's description from description field
-            boolean nsfw = over18Checkbox.isSelected (); //gets nsfw boolean from the checkbox
+            String  title       = titleField.getText (); //gets subreddit's title from title field
+            String  description = descriptionArea.getText (); //gets subreddit's description from description field
+            boolean nsfw        = over18Checkbox.isSelected (); //gets nsfw boolean from the checkbox
 
             if (title.isEmpty ()) //if no title is entered
             {
@@ -170,6 +198,7 @@ public class CreateSubredditMenu extends JFrame
                     Subreddit.addSubreddit (subreddit); //add subreddit to all subreddits list
 
                     dispose (); //close the current frame
+                    DataManager.saveData ();
                     JOptionPane.showMessageDialog (null, "Subreddit created successfully!");
                     new FrontPageMenu (); //open front page menu
                 }
@@ -193,27 +222,5 @@ public class CreateSubredditMenu extends JFrame
             }
         }
         return true;
-    }
-
-    private void updateCharacterCount ()
-    {
-        int currentLength = titleField.getText ().length ();
-        if (currentLength < 10)
-        {
-            characterCountLabelTitle.setText ("  " + currentLength + "/32"); //print two spaces if length is less than 10
-        }
-        else
-        {
-            characterCountLabelTitle.setText (" " + currentLength + "/32"); //print one space if length is more than 10
-        }
-    }
-
-    /*
-    MAIN FUNCTION
-    */
-
-    public static void main (String[] args)
-    {
-        SwingUtilities.invokeLater (CreateSubredditMenu :: new);
     }
 }
