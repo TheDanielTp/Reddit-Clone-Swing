@@ -114,6 +114,11 @@ public class Post implements Serializable
         this.karma = karma;
     }
 
+    public static void removePost (Post post)
+    {
+        allPosts.remove (post);
+    }
+
     /*
     DISPLAY FUNCTIONS
     */
