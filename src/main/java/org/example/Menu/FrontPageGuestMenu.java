@@ -13,18 +13,18 @@ public class FrontPageGuestMenu extends JFrame implements Serializable
 {
     public FrontPageGuestMenu ()
     {
+        setTitle ("Reddit");
+        setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE); //exit the program when window is closed
+
+        setSize (800, 600); //set window size
+        setLocationRelativeTo (null); //center align the frame on the screen
+
         if (User.getCurrentUser () != null) //make sure no user is logged in
         {
             dispose (); //close the current frame
             DataManager.saveData ();
             new FrontPageMenu (); //open front page menu
         }
-
-        setTitle ("Reddit");
-        setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE); //exit the program when window is closed
-
-        setSize (800, 600); //set window size
-        setLocationRelativeTo (null); //center align the frame on the screen
 
         JPanel mainPanel = new JPanel (); //create main panel
 

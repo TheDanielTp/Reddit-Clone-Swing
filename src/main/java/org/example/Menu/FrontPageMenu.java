@@ -13,18 +13,18 @@ public class FrontPageMenu extends JFrame implements Serializable
 {
     public FrontPageMenu ()
     {
+        setTitle ("Reddit");
+        setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE); //exit the program when window is closed
+
+        setSize (800, 600); //set window size
+        setLocationRelativeTo (null); //center align the frame on the screen
+
         if (User.getCurrentUser () == null) //make sure a user is logged in
         {
             dispose (); //close the current frame
             DataManager.saveData ();
             new FrontPageGuestMenu (); //open front page guest menu
         }
-
-        setTitle ("Reddit");
-        setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE); //exit the program when window is closed
-
-        setSize (800, 600); //set window size
-        setLocationRelativeTo (null); //center align the frame on the screen
 
         JPanel mainPanel = new JPanel (); //create main panel
 
@@ -135,18 +135,40 @@ public class FrontPageMenu extends JFrame implements Serializable
 
         for (Post post : allPosts)
         {
-            JPanel postPanel = new JPanel (new BorderLayout ()); //create post panel
+            if (User.getCurrentUser ().getSubreddits ().contains (post.getSubreddit ()))
+            {
+                JPanel postPanel = new JPanel (new BorderLayout ()); //create post panel
 
-            JPanel contentPanel = createPostPanel (post);
-            contentPanel.setBackground (new Color (0xffffff)); //set background color to white
+                JPanel contentPanel = createPostPanel (post);
+                contentPanel.setBackground (new Color (0xffffff)); //set background color to white
 
-            JPanel votePanel = createVotePanel (post); //create vote panel
+                JPanel votePanel = createVotePanel (post); //create vote panel
 
-            postPanel.add (votePanel, BorderLayout.WEST); //add vote panel to the left
-            postPanel.add (contentPanel, BorderLayout.CENTER); //add content panel to the center
+                postPanel.add (votePanel, BorderLayout.WEST); //add vote panel to the left
+                postPanel.add (contentPanel, BorderLayout.CENTER); //add content panel to the center
 
-            mainPanel.add (postPanel); //add post panel to main panel
-            mainPanel.add (Box.createVerticalStrut (20)); //add vertical spacing between post panels
+                mainPanel.add (postPanel); //add post panel to main panel
+                mainPanel.add (Box.createVerticalStrut (20)); //add vertical spacing between post panels
+            }
+        }
+
+        for (Post post : allPosts)
+        {
+            if (! User.getCurrentUser ().getSubreddits ().contains (post.getSubreddit ()))
+            {
+                JPanel postPanel = new JPanel (new BorderLayout ()); //create post panel
+
+                JPanel contentPanel = createPostPanel (post);
+                contentPanel.setBackground (new Color (0xffffff)); //set background color to white
+
+                JPanel votePanel = createVotePanel (post); //create vote panel
+
+                postPanel.add (votePanel, BorderLayout.WEST); //add vote panel to the left
+                postPanel.add (contentPanel, BorderLayout.CENTER); //add content panel to the center
+
+                mainPanel.add (postPanel); //add post panel to main panel
+                mainPanel.add (Box.createVerticalStrut (20)); //add vertical spacing between post panels
+            }
         }
 
         JScrollPane scrollPane = new JScrollPane (mainPanel); //adding main panel to a scroll pane
@@ -197,9 +219,18 @@ public class FrontPageMenu extends JFrame implements Serializable
         {
             Subreddit subreddit = post.getSubreddit ();
 
-            dispose ();
-            DataManager.saveData ();
-            new SubRedditMenu (subreddit);
+            if (subreddit.getAdmins ().contains (User.getCurrentUser ()))
+            {
+                dispose ();
+                DataManager.saveData ();
+                new SubredditAdminMenu (subreddit);
+            }
+            else
+            {
+                dispose ();
+                DataManager.saveData ();
+                new SubRedditMenu (subreddit);
+            }
         });
 
         JTextArea contentArea = new JTextArea (post.getContent ()); //create text area for post content
