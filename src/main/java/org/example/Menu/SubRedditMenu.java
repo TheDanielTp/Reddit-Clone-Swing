@@ -86,7 +86,9 @@ public class SubRedditMenu extends JFrame implements Serializable
         JButton viewMyProfileButton = new JButton ("View My Profile"); //create a button for viewing profile
         viewMyProfileButton.addActionListener (e -> //add action to the button
         {
-
+            dispose (); //close the current frame
+            DataManager.saveData ();
+            new ProfileMenu (); //open profile menu
         });
 
         //add buttons to the bottom panel
