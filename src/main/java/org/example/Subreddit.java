@@ -64,6 +64,11 @@ public class Subreddit implements Serializable
         return null;
     }
 
+    public void removeUser (User user)
+    {
+        members.remove (user);
+    }
+
     public void addMember (User user)
     {
         members.add (user);
@@ -91,6 +96,11 @@ public class Subreddit implements Serializable
     public String getDescription ()
     {
         return description;
+    }
+
+    public User getCreator ()
+    {
+        return creator;
     }
 
     public ArrayList <Post> getPosts ()
