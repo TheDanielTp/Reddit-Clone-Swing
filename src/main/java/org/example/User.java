@@ -141,6 +141,8 @@ public class User implements Serializable
 
     public void calculateKarma ()
     {
+        this.karma = 0;
+
         for (Post post : Post.getAllPosts ())
         {
             if (post.getUser ().getUsername ().equalsIgnoreCase (this.username))
@@ -151,7 +153,7 @@ public class User implements Serializable
 
         for (Comment comment : Comment.getAllComments ())
         {
-            if (comment.getUser ().getUsername ().equalsIgnoreCase (this.username))
+            if (comment.getPost ().getUser ().getUsername ().equalsIgnoreCase (this.username))
             {
                 karma += comment.getKarma ();
             }
