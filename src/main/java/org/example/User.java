@@ -67,6 +67,21 @@ public class User implements Serializable
         allUsers = users;
     }
 
+    public static void setAllEmails (ArrayList<String> emails)
+    {
+        allEmails = emails;
+    }
+
+    public static void setAllUsernames (ArrayList<String> usernames)
+    {
+        allUsernames = usernames;
+    }
+
+    public static void setAllPasswords (ArrayList<String> passwords)
+    {
+        allPasswords = passwords;
+    }
+
     /*
     USER FUNCTIONS
     */
@@ -87,6 +102,20 @@ public class User implements Serializable
     {
         currentUser = null;
     }
+
+    public void joinSubreddit (Subreddit subreddit)
+    {
+        subreddits.add (subreddit);
+    }
+
+    public void leaveSubreddit (Subreddit subreddit)
+    {
+        subreddits.remove (subreddit);
+    }
+
+    /*
+    ACCOUNT FUNCTIONS
+    */
 
     public void changeUsername (String username)
     {
