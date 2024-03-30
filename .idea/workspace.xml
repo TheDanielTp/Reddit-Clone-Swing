@@ -4,20 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9fda9efd-fca6-4857-81f2-d9d190e7dbc0" name="Changes" comment="Updated Data Manager Class">
+    <list default="true" id="9fda9efd-fca6-4857-81f2-d9d190e7dbc0" name="Changes" comment="Updated Subreddit Menu">
+      <change afterPath="$PROJECT_DIR$/Data" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Menu/SubredditUserMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/DataManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/DataManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Menu/CreatePostMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Menu/CreatePostMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Menu/CreateSubredditMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Menu/CreateSubredditMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Menu/FrontPageGuestMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Menu/FrontPageGuestMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Menu/FrontPageMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Menu/FrontPageMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Menu/PostMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Menu/PostMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Menu/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Menu/ProfileMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Menu/SignInSignUpMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Menu/SignInSignUpMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Menu/SubRedditMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Menu/SubRedditMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Menu/SubredditAdminMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Menu/SubredditAdminMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Menu/UserMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Menu/UserMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Post.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Subreddit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Subreddit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,36 +57,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Gradle.Reddit [:CommunityMenu.main()].executor": "Run",
-    "Gradle.Reddit [:CreatePost.main()].executor": "Run",
-    "Gradle.Reddit [:CreatePostMenu.main()].executor": "Run",
-    "Gradle.Reddit [:CreateSubredditMenu.main()].executor": "Run",
-    "Gradle.Reddit [:FrontPage.main()].executor": "Run",
-    "Gradle.Reddit [:FrontPageGUI.main()].executor": "Run",
-    "Gradle.Reddit [:FrontPageGuestMenu.main()].executor": "Run",
-    "Gradle.Reddit [:FrontPageMenu.main()].executor": "Run",
-    "Gradle.Reddit [:FrontPageMenuGuest.main()].executor": "Run",
-    "Gradle.Reddit [:GraphicalMenu.main()].executor": "Run",
-    "Gradle.Reddit [:Main.main()].executor": "Run",
-    "Gradle.Reddit [:PostMenu.main()].executor": "Run",
-    "Gradle.Reddit [:ProfileMenu.main()].executor": "Run",
-    "Gradle.Reddit [:SignInSignUpMenu.main()].executor": "Run",
-    "Gradle.Reddit [:SubRedditMenu.main()].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "develop",
-    "kotlin-language-version-configured": "true",
-    "onboarding.tips.debug.path": "D:/Java/Reddit/src/main/java/org/example/Main.java",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Gradle.Reddit [:CommunityMenu.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Reddit [:CreatePost.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Reddit [:CreatePostMenu.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Reddit [:CreateSubredditMenu.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Reddit [:FrontPage.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Reddit [:FrontPageGUI.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Reddit [:FrontPageGuestMenu.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Reddit [:FrontPageMenu.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Reddit [:FrontPageMenuGuest.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Reddit [:GraphicalMenu.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Reddit [:Main.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Reddit [:PostMenu.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Reddit [:ProfileMenu.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Reddit [:SignInSignUpMenu.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Reddit [:SubRedditMenu.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Reddit [:SubredditUserMenu.main()].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;D:/Java/Reddit/src/main/java/org/example/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -96,118 +96,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1711012019881</updated>
-    </task>
-    <task id="LOCAL‎−۰۰۰۱۶" summary="Updated Subreddit Class">
-      <option name="closed" value="true" />
-      <created>1711326107430</created>
-      <option name="number" value="LOCAL‎−۰۰۰۱۶" />
-      <option name="presentableId" value="LOCAL‎−۰۰۰۱۶" />
-      <updated>1711326107430</updated>
-    </task>
-    <task id="LOCAL‎−۰۰۰۱۷" summary="Created Create Post Menu">
-      <option name="closed" value="true" />
-      <created>1711326130252</created>
-      <option name="number" value="LOCAL‎−۰۰۰۱۷" />
-      <option name="presentableId" value="LOCAL‎−۰۰۰۱۷" />
-      <updated>1711326130252</updated>
-    </task>
-    <task id="LOCAL‎−۰۰۰۱۸" summary="Updated Post Class">
-      <option name="closed" value="true" />
-      <created>1711365971071</created>
-      <option name="number" value="LOCAL‎−۰۰۰۱۸" />
-      <option name="presentableId" value="LOCAL‎−۰۰۰۱۸" />
-      <updated>1711365971071</updated>
-    </task>
-    <task id="LOCAL‎−۰۰۰۱۹" summary="Updated Subreddit Class">
-      <option name="closed" value="true" />
-      <created>1711365980521</created>
-      <option name="number" value="LOCAL‎−۰۰۰۱۹" />
-      <option name="presentableId" value="LOCAL‎−۰۰۰۱۹" />
-      <updated>1711365980521</updated>
-    </task>
-    <task id="LOCAL‎−۰۰۰۲۰" summary="Updated User Class">
-      <option name="closed" value="true" />
-      <created>1711365986062</created>
-      <option name="number" value="LOCAL‎−۰۰۰۲۰" />
-      <option name="presentableId" value="LOCAL‎−۰۰۰۲۰" />
-      <updated>1711365986062</updated>
-    </task>
-    <task id="LOCAL‎−۰۰۰۲۱" summary="Created Create Subreddit Menu">
-      <option name="closed" value="true" />
-      <created>1711366024759</created>
-      <option name="number" value="LOCAL‎−۰۰۰۲۱" />
-      <option name="presentableId" value="LOCAL‎−۰۰۰۲۱" />
-      <updated>1711366024759</updated>
-    </task>
-    <task id="LOCAL‎−۰۰۰۲۲" summary="Updated Create Post Menu">
-      <option name="closed" value="true" />
-      <created>1711366060867</created>
-      <option name="number" value="LOCAL‎−۰۰۰۲۲" />
-      <option name="presentableId" value="LOCAL‎−۰۰۰۲۲" />
-      <updated>1711366060867</updated>
-    </task>
-    <task id="LOCAL‎−۰۰۰۲۳" summary="Updated Create Post Menu">
-      <option name="closed" value="true" />
-      <created>1711458147231</created>
-      <option name="number" value="LOCAL‎−۰۰۰۲۳" />
-      <option name="presentableId" value="LOCAL‎−۰۰۰۲۳" />
-      <updated>1711458147231</updated>
-    </task>
-    <task id="LOCAL‎−۰۰۰۲۴" summary="Updated Post Class">
-      <option name="closed" value="true" />
-      <created>1711458163050</created>
-      <option name="number" value="LOCAL‎−۰۰۰۲۴" />
-      <option name="presentableId" value="LOCAL‎−۰۰۰۲۴" />
-      <updated>1711458163050</updated>
-    </task>
-    <task id="LOCAL‎−۰۰۰۲۵" summary="Updated Subreddit Class">
-      <option name="closed" value="true" />
-      <created>1711458169872</created>
-      <option name="number" value="LOCAL‎−۰۰۰۲۵" />
-      <option name="presentableId" value="LOCAL‎−۰۰۰۲۵" />
-      <updated>1711458169872</updated>
-    </task>
-    <task id="LOCAL‎−۰۰۰۲۶" summary="Updated Sign In &amp; Sing Up Menu">
-      <option name="closed" value="true" />
-      <created>1711458196780</created>
-      <option name="number" value="LOCAL‎−۰۰۰۲۶" />
-      <option name="presentableId" value="LOCAL‎−۰۰۰۲۶" />
-      <updated>1711458196780</updated>
-    </task>
-    <task id="LOCAL‎−۰۰۰۲۷" summary="Updated Front Page Menu for Guests">
-      <option name="closed" value="true" />
-      <created>1711458217328</created>
-      <option name="number" value="LOCAL‎−۰۰۰۲۷" />
-      <option name="presentableId" value="LOCAL‎−۰۰۰۲۷" />
-      <updated>1711458217328</updated>
-    </task>
-    <task id="LOCAL‎−۰۰۰۲۸" summary="Updated Front Page Menu">
-      <option name="closed" value="true" />
-      <created>1711458222987</created>
-      <option name="number" value="LOCAL‎−۰۰۰۲۸" />
-      <option name="presentableId" value="LOCAL‎−۰۰۰۲۸" />
-      <updated>1711458222987</updated>
-    </task>
-    <task id="LOCAL‎−۰۰۰۲۹" summary="Updated Create Subreddit Menu">
-      <option name="closed" value="true" />
-      <created>1711458234790</created>
-      <option name="number" value="LOCAL‎−۰۰۰۲۹" />
-      <option name="presentableId" value="LOCAL‎−۰۰۰۲۹" />
-      <updated>1711458234790</updated>
-    </task>
-    <task id="LOCAL‎−۰۰۰۳۰" summary="Updated Comments Class">
-      <option name="closed" value="true" />
-      <created>1711458242400</created>
-      <option name="number" value="LOCAL‎−۰۰۰۳۰" />
-      <option name="presentableId" value="LOCAL‎−۰۰۰۳۰" />
-      <updated>1711458242400</updated>
-    </task>
-    <task id="LOCAL‎−۰۰۰۳۱" summary="Updated Front Page Menu">
-      <option name="closed" value="true" />
-      <created>1711524827262</created>
-      <option name="number" value="LOCAL‎−۰۰۰۳۱" />
-      <option name="presentableId" value="LOCAL‎−۰۰۰۳۱" />
-      <updated>1711524827262</updated>
     </task>
     <task id="LOCAL‎−۰۰۰۳۲" summary="Updated Post Class">
       <option name="closed" value="true" />
@@ -440,7 +328,119 @@
       <option name="presentableId" value="LOCAL‎−۰۰۰۶۴" />
       <updated>1711706169889</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL‎−۰۰۰۶۵" summary="Updated Create Post Menu">
+      <option name="closed" value="true" />
+      <created>1711706513032</created>
+      <option name="number" value="LOCAL‎−۰۰۰۶۵" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۶۵" />
+      <updated>1711706513032</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۶۶" summary="Updated Front Page Menus">
+      <option name="closed" value="true" />
+      <created>1711706536666</created>
+      <option name="number" value="LOCAL‎−۰۰۰۶۶" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۶۶" />
+      <updated>1711706536666</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۶۷" summary="Updated Post Class">
+      <option name="closed" value="true" />
+      <created>1711706549085</created>
+      <option name="number" value="LOCAL‎−۰۰۰۶۷" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۶۷" />
+      <updated>1711706549085</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۶۸" summary="Updated Post Menu">
+      <option name="closed" value="true" />
+      <created>1711706555822</created>
+      <option name="number" value="LOCAL‎−۰۰۰۶۸" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۶۸" />
+      <updated>1711706555822</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۶۹" summary="Updated Sign In &amp; Sign Up Menu">
+      <option name="closed" value="true" />
+      <created>1711706564649</created>
+      <option name="number" value="LOCAL‎−۰۰۰۶۹" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۶۹" />
+      <updated>1711706564649</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۷۰" summary="Updated Profile Menu">
+      <option name="closed" value="true" />
+      <created>1711706576441</created>
+      <option name="number" value="LOCAL‎−۰۰۰۷۰" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۷۰" />
+      <updated>1711706576441</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۷۱" summary="Updated Subreddit Menu">
+      <option name="closed" value="true" />
+      <created>1711706587766</created>
+      <option name="number" value="LOCAL‎−۰۰۰۷۱" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۷۱" />
+      <updated>1711706587766</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۷۲" summary="Updated Subreddit Class">
+      <option name="closed" value="true" />
+      <created>1711706593171</created>
+      <option name="number" value="LOCAL‎−۰۰۰۷۲" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۷۲" />
+      <updated>1711706593171</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۷۳" summary="Updated Create Subreddit Menu">
+      <option name="closed" value="true" />
+      <created>1711706602749</created>
+      <option name="number" value="LOCAL‎−۰۰۰۷۳" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۷۳" />
+      <updated>1711706602749</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۷۴" summary="Updated Main Class">
+      <option name="closed" value="true" />
+      <created>1711706610397</created>
+      <option name="number" value="LOCAL‎−۰۰۰۷۴" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۷۴" />
+      <updated>1711706610397</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۷۵" summary="Updated Workspace Xml">
+      <option name="closed" value="true" />
+      <created>1711706891445</created>
+      <option name="number" value="LOCAL‎−۰۰۰۷۵" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۷۵" />
+      <updated>1711706891445</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۷۶" summary="Created User Menu">
+      <option name="closed" value="true" />
+      <created>1711708107725</created>
+      <option name="number" value="LOCAL‎−۰۰۰۷۶" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۷۶" />
+      <updated>1711708107725</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۷۷" summary="Updated Front Page Menu">
+      <option name="closed" value="true" />
+      <created>1711708119675</created>
+      <option name="number" value="LOCAL‎−۰۰۰۷۷" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۷۷" />
+      <updated>1711708119675</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۷۸" summary="Created Subreddit Admin Menu Menu">
+      <option name="closed" value="true" />
+      <created>1711718628436</created>
+      <option name="number" value="LOCAL‎−۰۰۰۷۸" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۷۸" />
+      <updated>1711718628436</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۷۹" summary="Created Subreddit Admin Menu">
+      <option name="closed" value="true" />
+      <created>1711718683731</created>
+      <option name="number" value="LOCAL‎−۰۰۰۷۹" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۷۹" />
+      <updated>1711718683731</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۸۰" summary="Updated Subreddit Menu">
+      <option name="closed" value="true" />
+      <created>1711718693843</created>
+      <option name="number" value="LOCAL‎−۰۰۰۸۰" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۸۰" />
+      <updated>1711718693843</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -468,31 +468,31 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Created Main Class" />
-    <MESSAGE value="Created Sign In &amp; Sign Up Menu" />
-    <MESSAGE value="Created Create Post Menu" />
-    <MESSAGE value="Created Create Subreddit Menu" />
-    <MESSAGE value="Updated Sign In &amp; Sing Up Menu" />
     <MESSAGE value="Created Post Menu" />
-    <MESSAGE value="Updated Post Class" />
     <MESSAGE value="Updated Comments Class" />
-    <MESSAGE value="Updated Subreddit Class" />
-    <MESSAGE value="Updated Main Class" />
     <MESSAGE value="Updated Workspace &amp; Gradle Files" />
     <MESSAGE value="Created Subreddit Menu" />
-    <MESSAGE value="Updated Post Menu" />
     <MESSAGE value="Created Profile Menu" />
-    <MESSAGE value="Updated Subreddit Menu" />
-    <MESSAGE value="Updated Sign In &amp; Sign Up Menu" />
-    <MESSAGE value="Updated Create Subreddit Menu" />
     <MESSAGE value="Updated Front Page Menu for Guests" />
-    <MESSAGE value="Updated Create Post Menu" />
-    <MESSAGE value="Updated Profile Menu" />
     <MESSAGE value="Updated Xml Files" />
-    <MESSAGE value="Updated Front Page Menu" />
     <MESSAGE value="Created Data Manager Class" />
     <MESSAGE value="Updated User Class" />
     <MESSAGE value="Updated Data Manager Class" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated Data Manager Class" />
+    <MESSAGE value="Updated Create Post Menu" />
+    <MESSAGE value="Updated Front Page Menus" />
+    <MESSAGE value="Updated Post Class" />
+    <MESSAGE value="Updated Post Menu" />
+    <MESSAGE value="Updated Sign In &amp; Sign Up Menu" />
+    <MESSAGE value="Updated Profile Menu" />
+    <MESSAGE value="Updated Subreddit Class" />
+    <MESSAGE value="Updated Create Subreddit Menu" />
+    <MESSAGE value="Updated Main Class" />
+    <MESSAGE value="Updated Workspace Xml" />
+    <MESSAGE value="Created User Menu" />
+    <MESSAGE value="Updated Front Page Menu" />
+    <MESSAGE value="Created Subreddit Admin Menu Menu" />
+    <MESSAGE value="Created Subreddit Admin Menu" />
+    <MESSAGE value="Updated Subreddit Menu" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated Subreddit Menu" />
   </component>
 </project>
