@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.Menu.FrontPageGuestMenu;
+import org.example.Menu.FrontPageMenu;
 
 public class Main
 {
@@ -9,6 +10,13 @@ public class Main
     public static void main (String[] args)
     {
         DataManager.loadData ();
-        new FrontPageGuestMenu ();
+        if (User.getCurrentUser () == null)
+        {
+            new FrontPageGuestMenu ();
+        }
+        else
+        {
+            new FrontPageMenu ();
+        }
     }
 }
