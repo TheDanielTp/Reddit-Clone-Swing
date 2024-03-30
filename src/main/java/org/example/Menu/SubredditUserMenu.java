@@ -20,8 +20,10 @@ public class SubredditUserMenu extends JFrame
     public SubredditUserMenu (Subreddit subreddit)
     {
         this.subreddit = subreddit;
+
         setTitle ("Subreddit Users");
         setSize (400, 300); //set window size
+        setLocationRelativeTo (null);
 
         setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE); //do nothing when window is closed
         addWindowListener (new WindowAdapter () //do the following on window action
