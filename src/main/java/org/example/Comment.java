@@ -112,6 +112,11 @@ public class Comment implements Serializable
         return user;
     }
 
+    public Post getPost ()
+    {
+        return post;
+    }
+
     public String getContents ()
     {
         return contents;
