@@ -20,6 +20,8 @@ public class User implements Serializable
     private String username;
     private String password;
 
+    private int    postKarma;
+    private int    commentKarma;
     private int    karma;
     private byte[] salt;
 
@@ -62,22 +64,22 @@ public class User implements Serializable
         currentUser = user;
     }
 
-    public static void setAllUsers (ArrayList<User> users)
+    public static void setAllUsers (ArrayList <User> users)
     {
         allUsers = users;
     }
 
-    public static void setAllEmails (ArrayList<String> emails)
+    public static void setAllEmails (ArrayList <String> emails)
     {
         allEmails = emails;
     }
 
-    public static void setAllUsernames (ArrayList<String> usernames)
+    public static void setAllUsernames (ArrayList <String> usernames)
     {
         allUsernames = usernames;
     }
 
-    public static void setAllPasswords (ArrayList<String> passwords)
+    public static void setAllPasswords (ArrayList <String> passwords)
     {
         allPasswords = passwords;
     }
@@ -141,23 +143,27 @@ public class User implements Serializable
 
     public void calculateKarma ()
     {
+        this.postKarma = 0;
+        this.commentKarma = 0;
         this.karma = 0;
 
         for (Post post : Post.getAllPosts ())
         {
             if (post.getUser ().getUsername ().equalsIgnoreCase (this.username))
             {
-                this.karma += post.getKarma ();
+                this.postKarma += post.getKarma ();
             }
         }
 
         for (Comment comment : Comment.getAllComments ())
         {
-            if (comment.getPost ().getUser ().getUsername ().equalsIgnoreCase (this.username))
+            if (comment.getUser ().getUsername ().equalsIgnoreCase (this.username))
             {
-                karma += comment.getKarma ();
+                this.commentKarma += comment.getKarma ();
             }
         }
+
+        this.karma = this.postKarma + this.commentKarma;
     }
 
     /*
@@ -349,5 +355,17 @@ public class User implements Serializable
     {
         calculateKarma ();
         return karma;
+    }
+
+    public int getPostKarma ()
+    {
+        calculateKarma ();
+        return postKarma;
+    }
+
+    public int getCommentKarma ()
+    {
+        calculateKarma ();
+        return commentKarma;
     }
 }
