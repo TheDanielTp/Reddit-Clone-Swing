@@ -7,6 +7,7 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class UserMenu extends JFrame implements Serializable
 {
@@ -19,6 +20,8 @@ public class UserMenu extends JFrame implements Serializable
 
         setSize (800, 600); //set window size
         setLocationRelativeTo (null); //center align the frame on the screen
+
+        JPanel mainPanel = new JPanel ();
 
         /*
         CREATING TOP PANEL
@@ -39,7 +42,25 @@ public class UserMenu extends JFrame implements Serializable
         JButton searchButton = new JButton ("Search"); //create a button for searching
         searchButton.addActionListener (e -> //add action to the button
         {
-            String search = searchBar.getText ();
+            String search = searchBar.getText (); //get content of the search bar
+
+            ArrayList <Post> filteredPosts;
+            if (search.startsWith ("r/")) //search for subreddits if search begin with r/
+            {
+                String subredditName = search.substring (2); //exclude r/ from search string
+                filteredPosts = filterPostsBySubreddit (subredditName);
+            }
+            else if (search.startsWith ("u/")) //search for users if search begin with u/
+            {
+                String username = search.substring (2); //exclude u/ from search string
+                filteredPosts = filterPostsByUsername (username);
+            }
+            else //search for posts if search is normal
+            {
+                filteredPosts = filterPostsByTitle (search);
+            }
+
+            displayFilteredPosts (filteredPosts, mainPanel); //display the filtered results
         });
 
         //add buttons to the top panel
@@ -95,7 +116,6 @@ public class UserMenu extends JFrame implements Serializable
         CREATING MAIN PANEL
         */
 
-        JPanel mainPanel = new JPanel ();
         mainPanel.setBackground (new Color (0xdae0e6)); //set background color to light gray
         mainPanel.setLayout (new BoxLayout (mainPanel, BoxLayout.Y_AXIS)); //set layout to box layout
 
@@ -331,5 +351,58 @@ public class UserMenu extends JFrame implements Serializable
     public void updateKarma (int karmaCount, JLabel karmaLabel)
     {
         karmaLabel.setText ("Karma: " + karmaCount); //update karma label text
+    }
+
+    /*
+    SEARCH PANEL FUNCTIONS
+    */
+
+    private ArrayList <Post> filterPostsByTitle (String keyword)
+    {
+        return Post.getAllPosts ().stream () //create a stream with all posts as source
+                //filter posts that contain the keyword in their title
+                .filter (post -> post.getTitle ().toLowerCase ().contains (keyword.toLowerCase ()))
+                .collect (Collectors.toCollection (ArrayList :: new)); //create an arraylist from the collector's results
+    }
+
+    private ArrayList <Post> filterPostsBySubreddit (String subredditName)
+    {
+        return Post.getAllPosts ().stream () //create a stream with all posts as source
+                //filter posts that contain the keyword in their subreddit
+                .filter (post -> post.getSubreddit ().getTitle ().toLowerCase ().contains (subredditName.toLowerCase ()))
+                .collect (Collectors.toCollection (ArrayList :: new)); //create an arraylist from the collector's results
+    }
+
+    private ArrayList <Post> filterPostsByUsername (String username)
+    {
+        return Post.getAllPosts ().stream () //create a stream with all posts as source
+                //filter posts that contain the keyword in their username
+                .filter (post -> post.getUser ().getUsername ().toLowerCase ().contains (username.toLowerCase ()))
+                .collect (Collectors.toCollection (ArrayList :: new)); //create an arraylist from the collector's results
+    }
+
+    private void displayFilteredPosts (ArrayList <Post> filteredPosts, JPanel mainPanel)
+    {
+        mainPanel.removeAll (); //clear every post from the main panel
+
+        for (Post post : filteredPosts) //re-create the filtered posts
+        {
+            JPanel postPanel = new JPanel (new BorderLayout ()); //create post panel
+
+            JPanel contentPanel = createPostPanel (post); //create content panel
+            contentPanel.setBackground (new Color (0xffffff)); //set background color to white
+
+            JPanel votePanel = createVotePanel (post); //create vote panel
+
+            //add the panels to post panel
+            postPanel.add (votePanel, BorderLayout.WEST);
+            postPanel.add (contentPanel, BorderLayout.CENTER);
+
+            mainPanel.add (postPanel); //add post panel to main panel
+            mainPanel.add (Box.createVerticalStrut (20)); //add vertical spacing between post panels
+        }
+
+        mainPanel.revalidate (); //make the panel recalculate according to changes
+        mainPanel.repaint (); //display the changes in the frame
     }
 }
