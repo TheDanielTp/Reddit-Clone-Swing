@@ -40,18 +40,9 @@ public class SubredditAdminMenu extends JFrame implements Serializable
         JTextField description = new JTextField (" " + subreddit.getDescription (), 20); //create a text field for subreddit description
         description.setEditable (false);
 
-        JButton membersButton = new JButton ("Members"); //create a button for searching
-        membersButton.addActionListener (e -> //add action to the button
-        {
-            dispose ();
-            DataManager.saveData ();
-
-        });
-
         //add buttons to the top panel
         topPanel.add (returnButton, BorderLayout.WEST);
         topPanel.add (description, BorderLayout.CENTER);
-        topPanel.add (membersButton, BorderLayout.EAST);
 
         /*
         CREATING BOTTOM PANEL
@@ -77,14 +68,14 @@ public class SubredditAdminMenu extends JFrame implements Serializable
             new CreatePostMenu (); //open create post menu
         });
 
-        JButton viewNotificationsButton;
-        viewNotificationsButton = new JButton ("Manage Members"); //create a button for viewing notifications
-        viewNotificationsButton.setBackground (new Color (0xff4500)); //set button color to orange
-        viewNotificationsButton.setForeground (new Color (0xffffff)); //set text color to white
-        viewNotificationsButton.addActionListener (e -> //add action to the button
+        JButton manageMembers = new JButton ("Manage Members"); //create a button for viewing notifications
+        manageMembers.setBackground (new Color (0xff4500)); //set button color to orange
+        manageMembers.setForeground (new Color (0xffffff)); //set text color to white
+        manageMembers.addActionListener (e -> //add action to the button
         {
             dispose ();
             DataManager.saveData ();
+            new SubredditUserMenu (subreddit);
         });
 
         JButton viewMyProfileButton = new JButton ("View My Profile"); //create a button for viewing profile
@@ -96,7 +87,7 @@ public class SubredditAdminMenu extends JFrame implements Serializable
         //add buttons to the bottom panel
         bottomPanel.add (createSubredditButton);
         bottomPanel.add (createPostButton);
-        bottomPanel.add (viewNotificationsButton);
+        bottomPanel.add (manageMembers);
         bottomPanel.add (viewMyProfileButton);
 
         /*
@@ -215,7 +206,7 @@ public class SubredditAdminMenu extends JFrame implements Serializable
 
         JButton upvoteButton   = new JButton (" ↑ "); //create upvote button
         JButton downvoteButton = new JButton (" ↓ "); //create downvote button
-        JButton deleteButton = new JButton ("X");
+        JButton deleteButton   = new JButton ("X");
 
         JPanel karmaPanel = new JPanel (); //create a panel for karma label
         JLabel karmaLabel = new JLabel (); //initialize karma label with initial value
@@ -336,7 +327,7 @@ public class SubredditAdminMenu extends JFrame implements Serializable
 
         deleteButton.addActionListener (e ->
         {
-            int answer = JOptionPane.showConfirmDialog (null,"Are you sure you want to delete this post?");
+            int answer = JOptionPane.showConfirmDialog (null, "Are you sure you want to delete this post?");
             if (answer == JOptionPane.YES_OPTION)
             {
                 dispose ();
