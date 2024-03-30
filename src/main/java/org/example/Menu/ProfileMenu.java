@@ -17,7 +17,7 @@ public class ProfileMenu extends JFrame implements Serializable
         setTitle ("User Profile");
         setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE); //exit the program when window is closed
 
-        setSize (400, 300); //set window size
+        setSize (440, 300); //set window size
         setLocationRelativeTo (null); //center align the frame on the screen
 
         /*
@@ -34,10 +34,14 @@ public class ProfileMenu extends JFrame implements Serializable
             new FrontPageMenu (); //open front page menu
         });
 
+        JLabel postKarmaLabel = new JLabel ("Post Karma: " + User.getCurrentUser ().getPostKarma ());
+        JLabel commentKarmaLabel = new JLabel ("Comment Karma: " + User.getCurrentUser ().getCommentKarma ());
         JLabel karmaLabel = new JLabel ("Karma: " + User.getCurrentUser ().getKarma ()); //create karma label
 
         //add the components to the panel
         topPanel.add (returnButton);
+        topPanel.add (postKarmaLabel);
+        topPanel.add (commentKarmaLabel);
         topPanel.add (karmaLabel);
 
         JPanel bottomPanel = new JPanel (new FlowLayout (FlowLayout.CENTER)); //create top panel
