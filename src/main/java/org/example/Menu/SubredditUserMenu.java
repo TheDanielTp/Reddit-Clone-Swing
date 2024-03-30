@@ -40,7 +40,8 @@ public class SubredditUserMenu extends JFrame
         ArrayList <User> users = subreddit.getMembers (); //get subreddit's users list
         users.removeIf (user -> subreddit.getCreator ().equals (user)); //remove creator from user's list
 
-        userListPanel = new JPanel (new BoxLayout (userListPanel, BoxLayout.Y_AXIS)); //set users panel layout to vertical box layout
+        userListPanel = new JPanel(); //create user list panel
+        userListPanel.setLayout(new BoxLayout(userListPanel, BoxLayout.Y_AXIS)); //set panel's layout to vertical box layout
         userListPanel.setBorder (new EmptyBorder (10, 10, 10, 10)); //add empty border for spacing
 
         JScrollPane scrollPane = new JScrollPane (userListPanel); //create a scroll pane for users panel
@@ -69,39 +70,35 @@ public class SubredditUserMenu extends JFrame
         repaint (); //display the changes in the frame
     }
 
-    private void updateButtonPanel (ArrayList <User> users)
-    {
-        if (buttonPanel != null)
-        {
-            getContentPane ().remove (buttonPanel); //clear buttons panel
+    private void updateButtonPanel(ArrayList<User> users) {
+        if (buttonPanel != null) {
+            getContentPane().remove(buttonPanel); //clear buttons panel
         }
 
-        buttonPanel = new JPanel (new BoxLayout (buttonPanel, BoxLayout.Y_AXIS)); //set buttons panel layout to vertical box layout
+        buttonPanel = new JPanel(); //initialize button panel
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS)); // set layout
 
-        for (User user : users) //create a button for each user
-        {
-            JButton kickButton = new JButton ("Kick " + user.getUsername ());
-            kickButton.setPreferredSize (new Dimension (100, 20)); //set button size
-            kickButton.addActionListener (e -> //add action to the button
-            {
-                int answer = JOptionPane.showConfirmDialog (null, "Are you sure?");
-                if (answer == JOptionPane.YES_OPTION)
-                {
-                    dispose (); //close the current frame
+        for (User user : users) { //create a button for each user
+            JButton kickButton = new JButton("Kick " + user.getUsername());
+            kickButton.setPreferredSize(new Dimension(100, 20)); //set button size
+            kickButton.addActionListener(e -> { //add action to the button
+                int answer = JOptionPane.showConfirmDialog(null, "Are you sure?");
+                if (answer == JOptionPane.YES_OPTION) {
+                    dispose(); //close the current frame
 
-                    subreddit.removeUser (user); //remove user from subreddit's users list
-                    user.leaveSubreddit (subreddit); //remove subreddit from user's subreddits list
-                    JOptionPane.showMessageDialog (null, "User successfully kicked.");
+                    subreddit.removeUser(user); //remove user from subreddit's users list
+                    user.leaveSubreddit(subreddit); //remove subreddit from user's subreddits list
+                    JOptionPane.showMessageDialog(null, "User successfully kicked.");
 
-                    DataManager.saveData ();
-                    new SubredditUserMenu (subreddit); //open subreddit user menu
+                    DataManager.saveData();
+                    new SubredditUserMenu(subreddit); //open subreddit user menu
                 }
             });
-            buttonPanel.add (kickButton); //add button to the panel
+            buttonPanel.add(kickButton); //add button to the panel
         }
 
-        getContentPane ().add (buttonPanel, BorderLayout.EAST);
-        revalidate (); //make the panel recalculate according to changes
-        repaint (); //display the changes in the frame
+        getContentPane().add(buttonPanel, BorderLayout.EAST);
+        revalidate(); //make the panel recalculate according to changes
+        repaint(); //display the changes in the frame
     }
 }
