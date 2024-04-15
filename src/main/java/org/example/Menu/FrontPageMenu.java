@@ -251,7 +251,7 @@ public class FrontPageMenu extends JFrame implements Serializable
 
         return postPanel;
     }
-
+    
     private JButton createButton (String text)
     {
         JButton button = new JButton (text); //create a button for post components
