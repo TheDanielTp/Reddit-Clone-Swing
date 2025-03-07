@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9fda9efd-fca6-4857-81f2-d9d190e7dbc0" name="Changes" comment="Updated Subreddit User Menu">
-      <change afterPath="$PROJECT_DIR$/Data" afterDir="false" />
+    <list default="true" id="9fda9efd-fca6-4857-81f2-d9d190e7dbc0" name="Changes" comment="Minor Changes">
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Menu/FrontPageMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Menu/FrontPageMenu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +18,23 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Reddit" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -48,38 +65,50 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Gradle.Reddit [:CommunityMenu.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Reddit [:CreatePost.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Reddit [:CreatePostMenu.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Reddit [:CreateSubredditMenu.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Reddit [:FrontPage.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Reddit [:FrontPageGUI.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Reddit [:FrontPageGuestMenu.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Reddit [:FrontPageMenu.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Reddit [:FrontPageMenuGuest.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Reddit [:GraphicalMenu.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Reddit [:Main.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Reddit [:PostMenu.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Reddit [:ProfileMenu.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Reddit [:SignInSignUpMenu.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Reddit [:SubRedditMenu.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Reddit [:SubredditUserMenu.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.University_Second_Semester_Project_Reddit-Swing [:Main.main()].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;D:/Java/Reddit/src/main/java/org/example/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Gradle.Reddit [:CommunityMenu.main()].executor": "Run",
+    "Gradle.Reddit [:CreatePost.main()].executor": "Run",
+    "Gradle.Reddit [:CreatePostMenu.main()].executor": "Run",
+    "Gradle.Reddit [:CreateSubredditMenu.main()].executor": "Run",
+    "Gradle.Reddit [:FrontPage.main()].executor": "Run",
+    "Gradle.Reddit [:FrontPageGUI.main()].executor": "Run",
+    "Gradle.Reddit [:FrontPageGuestMenu.main()].executor": "Run",
+    "Gradle.Reddit [:FrontPageMenu.main()].executor": "Run",
+    "Gradle.Reddit [:FrontPageMenuGuest.main()].executor": "Run",
+    "Gradle.Reddit [:GraphicalMenu.main()].executor": "Run",
+    "Gradle.Reddit [:Main.main()].executor": "Run",
+    "Gradle.Reddit [:PostMenu.main()].executor": "Run",
+    "Gradle.Reddit [:ProfileMenu.main()].executor": "Run",
+    "Gradle.Reddit [:SignInSignUpMenu.main()].executor": "Run",
+    "Gradle.Reddit [:SubRedditMenu.main()].executor": "Run",
+    "Gradle.Reddit [:SubredditUserMenu.main()].executor": "Run",
+    "Gradle.Reddit-(Swing) [:Main.main()].executor": "Run",
+    "Gradle.University_Second_Semester_Project_Reddit-Swing [:Main.main()].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "develop",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Java/Projects/University_Second_Semester_Project_Reddit-JavaFX",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "D:/Java/Reddit/src/main/java/org/example/Main.java",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -88,13 +117,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1711012019881</updated>
-    </task>
-    <task id="LOCAL‎−۰۰۰۵۱" summary="Updated Front Page Menu">
-      <option name="closed" value="true" />
-      <created>1711548534948</created>
-      <option name="number" value="LOCAL‎−۰۰۰۵۱" />
-      <option name="presentableId" value="LOCAL‎−۰۰۰۵۱" />
-      <updated>1711548534948</updated>
+      <workItem from="1741337568572" duration="87000" />
+      <workItem from="1741337676926" duration="111000" />
+      <workItem from="1741337800731" duration="25000" />
     </task>
     <task id="LOCAL‎−۰۰۰۵۲" summary="Updated Front Page Menu for Guests">
       <option name="closed" value="true" />
@@ -432,8 +457,18 @@
       <option name="presentableId" value="LOCAL‎−۰۰۰۹۹" />
       <updated>1711831208194</updated>
     </task>
-    <option name="localTasksCounter" value="100" />
+    <task id="LOCAL‎−۰۰۱۰۰" summary="Minor Changes">
+      <option name="closed" value="true" />
+      <created>1713169669597</created>
+      <option name="number" value="LOCAL‎−۰۰۱۰۰" />
+      <option name="presentableId" value="LOCAL‎−۰۰۱۰۰" />
+      <updated>1713169669597</updated>
+    </task>
+    <option name="localTasksCounter" value="101" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -460,7 +495,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Updated Xml Files" />
     <MESSAGE value="Created Data Manager Class" />
     <MESSAGE value="Updated Create Post Menu" />
     <MESSAGE value="Updated Post Menu" />
@@ -485,6 +519,7 @@
     <MESSAGE value="Updated User Class" />
     <MESSAGE value="Updated Subreddit Menu" />
     <MESSAGE value="Updated Subreddit User Menu" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated Subreddit User Menu" />
+    <MESSAGE value="Minor Changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor Changes" />
   </component>
 </project>
