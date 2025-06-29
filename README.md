@@ -1,1 +1,1 @@
-# University_Second_Semester_Project_Reddit-Swing
+# Reddit Clone — Java Swing Edition
