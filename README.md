@@ -123,7 +123,7 @@ Distributed under the MIT License. See [LICENSE](https://github.com/TheDanielTp/
 
 My Email - [prof.danial4@gmail.com](mailto:prof.danial4@gmail.com)
 
-Project Link: [https://github.com/TheDanielTp/Reddit-Clone-JavaFX](https://github.com/TheDanielTp/Reddit-Clone-Swing)
+Project Link: [https://github.com/TheDanielTp/Reddit-Clone-Swing](https://github.com/TheDanielTp/Reddit-Clone-Swing)
 
 <p align="right"><a href="#readme-top">Back to Top</a></p>
 
